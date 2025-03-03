@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Learnify : Dynamic Learning System
 
-## Getting Started
+## Overview
 
-First, run the development server:
+The **Dynamic Learning System** is an AI-powered personalized learning assistant that dynamically generates explanations, quizzes, and progress tracking based on user interactions. It enhances the learning process by providing tailored study materials and adaptive quizzes.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features & Workflow
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 1. **Book Upload & Processing**
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Users can upload books in **PDF, EPUB, and other formats**.
+- The system extracts the **Table of Contents (ToC)** and divides the book into manageable sections.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 2. **Dynamic Content Explanation**
 
-## Learn More
+- Users select a section they want to study.
+- The selected text is processed by an **AI API** (OpenAI, Claude, Gemini, etc.).
+- The AI provides **simplified or detailed** explanations based on user preferences.
 
-To learn more about Next.js, take a look at the following resources:
+### 3. **Quiz Generation & Scoring**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- AI generates **10 dynamic questions per section**:
+  - **4 Easy**
+  - **3 Medium**
+  - **3 Hard**
+- Each quiz attempt generates **new questions** to prevent repetition.
+- AI evaluates quiz responses and provides **automated grading**.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 4. **Performance Tracking & Recommendations**
 
-## Deploy on Vercel
+- **Grade Dashboard**: Users can track performance per book and section.
+- **Dynamic Quiz Evaluation**: AI suggests topics to revisit based on quiz scores.
+- **Progress Bars**: Visual tracking of learning progress for each section.
+- **Knowledge Score**: Aggregates quiz performance to measure understanding.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Tech Stack (probly)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Component           | Technology                                            |
+| ------------------- | ----------------------------------------------------- |
+| **Frontend**        | React.js / Next.js                                    |
+| **Backend**         | Firebase (Storage, Authentication, Real-time updates) |
+| **AI Processing**   | OpenAI / Gemini (for explanations & quiz generation)  |
+| **Database**        | Firestore (Stores progress, quiz results, user data)  |
+| **File Processing** | PDF.js / PyMuPDF (Extracts ToC & text)                |
+
+## How to Run the Project
+
+1. **Clone the Repository**:
+   ```sh
+   git clone https://github.com/your-repo/dynamic-learning-system.git
+   cd dynamic-learning-system
+   ```
+2. **Install Dependencies**:
+   ```sh
+   npm install
+   ```
+3. **Set Up Firebase**:
+   - Configure Firebase Authentication and Firestore.
+   - Add Firebase configuration to the project.
+4. **Run the Application**:
+   ```sh
+   npm run dev
+   ```
+
+## Future Enhancements
+
+- **Gamification Elements** (Badges, Leaderboards, Streaks).
+
+## License
+
+This project is licensed under the **MIT License**.
+
+---
+
+Developed with ❤️ by **DOTAIZZ**
