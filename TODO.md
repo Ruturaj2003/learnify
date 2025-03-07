@@ -12,3 +12,5 @@
 "sizes": "750x1334"
 }
 ]
+
+## Add Protected Routes in middleware , Clerk now keeps all public by default
