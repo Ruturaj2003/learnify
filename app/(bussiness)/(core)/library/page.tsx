@@ -1,31 +1,40 @@
+import BookCard from '../_components/BookCard';
 import Searchbar from '../_components/Searchbar';
 
 const BookLibraryPage = () => {
+  // Sample book data (Replace with real data when available)
+  const bookArray = [1, 3, 4, 5, 65, 6, 6, 34, 1, 3, 4, 5, 65, 6, 6, 34];
+
   return (
     <div className="flex flex-col h-screen">
       {/* Custom NavBar */}
-      <div className="border-b w-full h-16 flex justify-between items-center px-4 sm:px-6 bg-white shadow-md">
+      <header className="border-b w-full h-16 flex justify-between items-center px-4 bg-white shadow-md">
         <img src="/logo.svg" alt="Logo" className="h-5 w-auto" />
-        <div className="text-lg font-semibold text-gray-800">Your Library</div>
+        <h1 className="text-lg font-semibold text-gray-800">Your Library</h1>
         <button
           className="flex items-center p-2 focus:outline-none"
-          aria-label="User  Profile"
+          aria-label="User Profile"
         >
           <span className="text-lg">User Icon</span>
         </button>
-      </div>
+      </header>
 
       {/* Main Content Area */}
-      <div className="flex-grow p-4">
-        {/* Placeholder for main content */}
-        <div className="bg-gray-100 h-full rounded-lg p-4">
-          {/* Your main content goes here */}
-          <p className="font-bold text-center">Uploaded Books</p>
-          <div className="block">
-            <Searchbar></Searchbar>
-          </div>
+      <main className="flex-grow p-4 bg-gray-100 rounded-lg">
+        <h2 className="font-bold text-center">Uploaded Books</h2>
+
+        {/* Search Bar */}
+        <div className="my-4">
+          <Searchbar />
         </div>
-      </div>
+
+        {/* Book List (Always One Column) */}
+        <div className="flex flex-col gap-4">
+          {bookArray.map((book, index) => (
+            <BookCard key={index} />
+          ))}
+        </div>
+      </main>
     </div>
   );
 };
