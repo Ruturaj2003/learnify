@@ -1,3 +1,5 @@
+import Searchbar from '../_components/Searchbar';
+
 const BookLibraryPage = () => {
   return (
     <div className="flex flex-col h-screen">
@@ -18,9 +20,10 @@ const BookLibraryPage = () => {
         {/* Placeholder for main content */}
         <div className="bg-gray-100 h-full rounded-lg p-4">
           {/* Your main content goes here */}
-          <p className="text-gray-700">
-            This is where your book library content will be displayed.
-          </p>
+          <p className="font-bold text-center">Uploaded Books</p>
+          <div className="block">
+            <Searchbar></Searchbar>
+          </div>
         </div>
       </div>
     </div>
