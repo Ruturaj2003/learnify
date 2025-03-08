@@ -1,11 +1,9 @@
-import Navbar from '../components/Navbar';
-
 const BookLibraryPage = () => {
   return (
     <div className="flex flex-col h-screen">
       {/* Custom NavBar */}
       <div className="border-b w-full h-16 flex justify-between items-center px-4 sm:px-6 bg-white shadow-md">
-        <div className="text-lg font-semibold text-gray-800">Logo</div>
+        <img src="/logo.svg" alt="Logo" className="h-5 w-auto" />
         <div className="text-lg font-semibold text-gray-800">Your Library</div>
         <button
           className="flex items-center p-2 focus:outline-none"
