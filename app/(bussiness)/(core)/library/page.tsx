@@ -1,3 +1,4 @@
+import { User } from 'lucide-react';
 import BookCard from '../_components/BookCard';
 import Searchbar from '../_components/Searchbar';
 
@@ -9,13 +10,18 @@ const BookLibraryPage = () => {
     <div className="flex flex-col h-screen">
       {/* Custom NavBar */}
       <header className="border-b w-full h-16 flex justify-between items-center px-4 bg-white shadow-md">
-        <img src="/logo.svg" alt="Logo" className="h-5 w-auto" />
-        <h1 className="text-lg font-semibold text-gray-800">Your Library</h1>
+        <img src="/logo.svg" alt="Logo" className="h-6 w-auto" />
+
         <button
           className="flex items-center p-2 focus:outline-none"
           aria-label="User Profile"
         >
-          <span className="text-lg">User Icon</span>
+          <span className="text-lg">
+            <User
+              className="bg-blue-500 text-white rounded-full"
+              height={30}
+            ></User>
+          </span>
         </button>
       </header>
 

@@ -26,8 +26,8 @@ const BottomNavbar = () => {
   ];
 
   return (
-    <nav className="fixed bottom-1 w-full pt-1">
-      <div className="h-12 w-full rounded-t-md bg-white flex justify-evenly items-center shadow-md ">
+    <nav className="fixed bottom-0 w-full pt-1">
+      <div className="h-16 w-full rounded-t-md bg-white flex justify-evenly items-center shadow-md ">
         {navItems.map(({ href, label, icon }) => (
           <Link
             key={href}
