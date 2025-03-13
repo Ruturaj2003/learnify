@@ -1,4 +1,4 @@
-const BookReadPage = () => {
-  return <div>BookReadPage</div>;
+const SectionReadPage = () => {
+  return <div>SectionReadPage</div>;
 };
-export default BookReadPage;
+export default SectionReadPage;
