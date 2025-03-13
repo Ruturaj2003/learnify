@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import Navbar from '../../_components/Navbar';
-import { Button } from '@/components/ui/button';
 import QuizzezSection from './_components/QuizzezSection';
 import MyBooksSection from './_components/MyBooksSection';
 import RecommendationsSection from './_components/RecommendationsSection';
