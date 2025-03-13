@@ -19,9 +19,48 @@ const page = () => {
   };
 
   const handleUpload = async () => {
-    if (!file) return toast.error('Please select a file first');
+    if (!file) {
+      toast.error('Please select a file first', {
+        position: 'top-center',
+        duration: 3000, // Auto-dismiss after 3s
+        style: {
+          background: '#1e293b',
+          color: '#f8fafc',
+          borderRadius: '10px',
+          padding: '12px',
+          fontSize: '16px',
+        },
+      });
+      return;
+    }
 
-    toast.success('Uploading : $(file.name');
+    // Show loading toast and store its ID
+    const toastId = toast.loading(`Uploading: ${file.name}`, {
+      position: 'top-center',
+      style: {
+        background: '#1e293b',
+        color: '#f8fafc',
+        borderRadius: '10px',
+        padding: '12px',
+        fontSize: '16px',
+      },
+    });
+
+    // Simulate an upload process (2 seconds)
+    setTimeout(() => {
+      toast.dismiss(toastId); // Remove loading toast
+      toast.success('File uploaded successfully!', {
+        position: 'top-center',
+        duration: 3000, // Auto-dismiss success message
+        style: {
+          background: '#10b981',
+          color: '#fff',
+          borderRadius: '10px',
+          padding: '12px',
+          fontSize: '16px',
+        },
+      });
+    }, 2000);
   };
 
   return (
