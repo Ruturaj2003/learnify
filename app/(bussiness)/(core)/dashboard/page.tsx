@@ -5,6 +5,7 @@ import Navbar from '../../_components/Navbar';
 import { Button } from '@/components/ui/button';
 import QuizzezSection from './_components/QuizzezSection';
 import MyBooksSection from './_components/MyBooksSection';
+import RecommendationsSection from './_components/RecommendationsSection';
 
 interface Book {
   title: string;
@@ -92,19 +93,6 @@ const KnowledgeScore = ({ score }: { score: number }) => (
       Knowledge Score: {score}/100
     </h3>
   </div>
-);
-
-const RecommendationsSection = () => (
-  <section className="bg-white shadow-lg rounded-lg p-6 mb-8">
-    <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-      Recommendations
-    </h2>
-    <ul className="list-disc list-inside text-gray-800">
-      <li className="mb-2">Review Section 3</li>
-      <li className="mb-2">Explore Chapter 5</li>
-      <li>Revisit Quiz 2</li>
-    </ul>
-  </section>
 );
 
 export default DashboardPage;
