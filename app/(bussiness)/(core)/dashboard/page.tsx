@@ -40,7 +40,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 mb-16">
       <Navbar title="Dashboard" />
       <main className="max-w-5xl mx-auto p-4 sm:p-6">
         {/* Current Book Section */}
