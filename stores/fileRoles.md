@@ -1,37 +1,57 @@
-### Explanation of `stores` Folder:
+### ✅ **1. Global Store (GlobalStore)**
 
-1. **index.ts**
+- **Purpose:** Manages the global app state such as the current mode (`learn`, `quiz`, `explain`) and the selected section.
+- **State to Manage:**
+  - `currentSection` (Selected section)
+  - `mode` (Learn, Quiz, Explain)
+- **Why?** It handles app-wide states used across multiple components.
 
-   - Acts as a central export point for all stores, making imports cleaner:
+---
 
-   ```ts
-   export { useBookStore } from './bookStore';
-   export { useSectionStore } from './sectionStore';
-   export { useQuizStore } from './quizStore';
-   export { useExplanationStore } from './explanationStore';
-   export { usePerformanceStore } from './performanceStore';
-   export { useUserStore } from './userStore';
-   ```
+### ✅ **2. Book Store (BookStore)**
 
-2. **bookStore.ts**
+- **Purpose:** Stores book-related data like uploaded books and extracted sections.
+- **State to Manage:**
+  - `books` (Array of books with sections)
+  - `currentBook` (Selected book)
+- **Why?** It ensures proper management of uploaded books and supports future scalability.
 
-   - Manages book-related state like uploaded book data and processed sections.
+---
 
-3. **sectionStore.ts**
+### ✅ **3. Quiz Store (QuizStore)**
 
-   - Handles the currently selected section and its content.
+- **Purpose:** Manages quiz generation, user answers, and scores.
+- **State to Manage:**
+  - `questions` (Quiz questions)
+  - `answers` (User's answers)
+  - `score` (Evaluation result)
+- **Why?** Keeping quiz logic separate avoids unnecessary re-renders.
 
-4. **quizStore.ts**
+---
 
-   - Manages quiz-related state, including generated quizzes and user answers.
+### ✅ **4. Explanation Store (ExplanationStore)**
 
-5. **explanationStore.ts**
+- **Purpose:** Handles AI-generated explanations and tracks user preferences.
+- **State to Manage:**
+  - `explanation` (AI-generated text)
+  - `detailLevel` (Simple or Detailed)
+- **Why?** It isolates AI-based content generation logic.
 
-   - Stores AI-generated explanations and tracks detail preferences.
+---
 
-6. **performanceStore.ts**
+### ✅ **5. Performance Store (PerformanceStore)**
 
-   - Maintains user performance data, scores, and progress tracking.
+- **Purpose:** Tracks the user’s progress and performance across books and sections.
+- **State to Manage:**
+  - `performanceData` (Scores and progress per section)
+- **Why?** It simplifies data management for dashboards and progress tracking.
 
-7. **userStore.ts**
-   - Manages user authentication data and preferences.
+---
+
+### ✅ **Summary**
+
+- **GlobalStore:** For navigation and mode management.
+- **BookStore:** For book and section management.
+- **QuizStore:** For quizzes and evaluation.
+- **ExplanationStore:** For AI-based explanations.
+- **PerformanceStore:** For tracking user progress.
