@@ -9,8 +9,8 @@ const BookLibraryPage = () => {
   return (
     <div className="flex flex-col h-screen">
       {/* Custom NavBar */}
-      <header className="border-b w-full h-16 flex justify-between items-center px-4 bg-white shadow-md">
-        <img src="/logo.svg" alt="Logo" className="h-6 w-auto" />
+      <header className="border-b w-full h-16 flex   justify-between items-center px-4 bg-white shadow-md">
+        <img src="/logo.png" alt="Logo" className="h-12 w-auto mb-1" />
 
         <button
           className="flex items-center p-2 focus:outline-none"
