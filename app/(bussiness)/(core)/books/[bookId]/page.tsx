@@ -40,10 +40,6 @@ const BookSectionListPage = () => {
   return (
     <div className="flex flex-col items-center gap-y-4">
       <Navbar title="Book Name ...." />
-      <div className="p-2 border bg-gradient-to-r from-amber-400 to-rose-300 rounded-2xl w-[80%] text-2xl text-center">
-        Learning mode:
-        {mode}
-      </div>
 
       {/* Learning Mode */}
       <DropdownMenu>
