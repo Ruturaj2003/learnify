@@ -4,7 +4,33 @@ import Searchbar from '../_components/Searchbar';
 
 const BookLibraryPage = () => {
   // Sample book data (Replace with real data when available)
-  const bookArray = [1, 3, 4, 5, 65, 6, 6, 34, 1, 3, 4, 5, 65, 6, 6, 34];
+  const bookArray = [
+    {
+      id: 1,
+      title: 'The Alchemist',
+      description: 'A journey of self-discovery.',
+    },
+    {
+      id: 2,
+      title: 'Atomic Habits',
+      description: 'A guide to building good habits.',
+    },
+    {
+      id: 3,
+      title: '1984',
+      description: 'A dystopian novel about totalitarianism.',
+    },
+    {
+      id: 4,
+      title: 'To Kill a Mockingbird',
+      description: 'A classic novel on racial injustice.',
+    },
+    {
+      id: 5,
+      title: 'The Catcher in the Rye',
+      description: 'A coming-of-age story.',
+    },
+  ];
 
   return (
     <div className="flex flex-col h-screen">
@@ -37,7 +63,12 @@ const BookLibraryPage = () => {
         {/* Book List (Always One Column) */}
         <div className="flex flex-col gap-4">
           {bookArray.map((book, index) => (
-            <BookCard id={book} key={index} />
+            <BookCard
+              id={book.id}
+              description={book.description}
+              title={book.title}
+              key={index}
+            />
           ))}
         </div>
       </main>

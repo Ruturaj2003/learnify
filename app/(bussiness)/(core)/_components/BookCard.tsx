@@ -4,7 +4,15 @@ import { Button } from '@/components/ui/button';
 import { useGlobalStore } from '@/stores';
 import { useRouter } from 'next/navigation';
 type Mode = 'read' | 'quiz' | 'explain';
-const BookCard = ({ id }: { id: number }) => {
+const BookCard = ({
+  id,
+  title,
+  description,
+}: {
+  id: number;
+  title: string;
+  description: string;
+}) => {
   const setMode = useGlobalStore((state) => state.setMode);
   const router = useRouter();
   const handleClick = (mode: Mode) => {
@@ -21,15 +29,10 @@ const BookCard = ({ id }: { id: number }) => {
       {/* Book Data (60% Width) */}
       <div className="flex flex-col justify-between flex-grow bg-teal-50 p-3">
         {/* Book Title */}
-        <h2 className="text-md font-semibold truncate max-w-full">
-          Introduction to Data Science
-        </h2>
+        <h2 className="text-md font-semibold truncate max-w-full">{title}</h2>
 
         {/* Book Description (Truncated) */}
-        <p className="text-sm text-gray-800 line-clamp-3">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis sit at
-          velit dignissimos!
-        </p>
+        <p className="text-sm text-gray-800 line-clamp-3">{description}</p>
 
         {/* Buttons */}
         <div className="flex justify-between gap-x-2">
