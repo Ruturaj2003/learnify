@@ -61,7 +61,7 @@ const BookLibraryPage = () => {
         </div>
 
         {/* Book List (Always One Column) */}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 mb-16">
           {bookArray.map((book, index) => (
             <BookCard
               id={book.id}
