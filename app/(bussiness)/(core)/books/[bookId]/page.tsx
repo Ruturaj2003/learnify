@@ -63,7 +63,7 @@ const BookSectionListPage = () => {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <div className="p-4 space-y-4 w-full max-w-2xl">
+      <div className="p-4 space-y-4 w-full max-w-2xl mb-16">
         {chapters.map((chapter) => (
           <ChapterCard
             key={chapter.number} // Use chapter number as key for better performance
