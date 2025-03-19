@@ -1,6 +1,17 @@
-import { Button } from '@/components/ui/button';
+'use client';
 
-const BookCard = () => {
+import { Button } from '@/components/ui/button';
+import { useGlobalStore } from '@/stores';
+import { useRouter } from 'next/navigation';
+type Mode = 'read' | 'quiz' | 'explain';
+const BookCard = ({ id }: { id: number }) => {
+  const setMode = useGlobalStore((state) => state.setMode);
+  const router = useRouter();
+  const handleClick = (mode: Mode) => {
+    setMode(mode);
+    router.push('/books/' + id);
+  };
+
   return (
     // Card Container
     <div className="flex h-48 w-full bg-amber-100 rounded-md shadow-md overflow-hidden">
@@ -22,13 +33,25 @@ const BookCard = () => {
 
         {/* Buttons */}
         <div className="flex justify-between gap-x-2">
-          <Button size="sm" variant="outline">
+          <Button
+            onClick={() => handleClick('read')}
+            size="sm"
+            variant="outline"
+          >
             Read
           </Button>
-          <Button size="sm" variant="outline">
+          <Button
+            onClick={() => handleClick('explain')}
+            size="sm"
+            variant="outline"
+          >
             Learn
           </Button>
-          <Button size="sm" variant="outline">
+          <Button
+            onClick={() => handleClick('quiz')}
+            size="sm"
+            variant="outline"
+          >
             Quiz
           </Button>
         </div>
