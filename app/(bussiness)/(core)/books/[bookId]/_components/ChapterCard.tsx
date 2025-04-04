@@ -1,4 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
+import { useGlobalStore } from '@/stores';
+import { usePathname, useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 interface ChapterCardProps {
   chapterNumber: string;
@@ -9,8 +12,17 @@ const ChapterCard: React.FC<ChapterCardProps> = ({
   chapterNumber,
   chapterName,
 }) => {
+  const mode = useGlobalStore((state) => state.mode);
+  const router = useRouter();
+  const pathname = usePathname();
+  function handleClick() {
+    router.push(`${pathname}/${mode}/${chapterNumber}`);
+  }
   return (
-    <Card className="w-full p-4 mb-4 shadow-md rounded-xl bg-gradient-to-r from-amber-200 to-rose-100 border border-gray-200">
+    <Card
+      onClick={handleClick}
+      className="w-full p-4 mb-4 shadow-md rounded-xl bg-gradient-to-r from-amber-200 to-rose-100 border border-gray-200"
+    >
       <CardContent className="flex items-center">
         {/* Circular badge for chapter number */}
         <div className="flex-shrink-0">
