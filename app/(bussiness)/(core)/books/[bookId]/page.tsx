@@ -43,7 +43,7 @@ const BookSectionListPage = () => {
 
       {/* Learning Mode */}
       <DropdownMenu>
-        <DropdownMenuTrigger className="text-2xl p-2 border bg-gradient-to-r from-amber-400 to-rose-300 rounded-2xl w-[80%]  text-center ">
+        <DropdownMenuTrigger className="text-2xl p-2 border bg-gradient-to-r from-amber-400 to-rose-300 rounded-2xl w-[80%]  text-center capitalize ">
           Learning Mode : {mode}
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="">
