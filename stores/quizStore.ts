@@ -11,6 +11,8 @@ type QuizState = {
   answers: Record<string, string>;
   score: number;
   currentQuestionIndex: number;
+  resultSummary: string;
+  resultRecommendation: string;
 
   setQuestions: (questions: Question[]) => void;
   submitAnswer: (question: string, answer: string) => void;
@@ -19,6 +21,9 @@ type QuizState = {
   nextQuestion: () => void;
   prevQuestion: () => void;
   resetQuiz: () => void;
+
+  fetchResultSummary: () => Promise<void>;
+  fetchResultRecommendation: () => Promise<void>;
 };
 
 export const useQuizStore = create<QuizState>((set, get) => ({
@@ -26,17 +31,19 @@ export const useQuizStore = create<QuizState>((set, get) => ({
   answers: {},
   score: 0,
   currentQuestionIndex: 0,
+  resultSummary: '',
+  resultRecommendation: '',
 
-  // Sets questions and resets the quiz
   setQuestions: (questions) =>
     set({
       questions,
       currentQuestionIndex: 0,
       answers: {},
       score: 0,
+      resultSummary: '',
+      resultRecommendation: '',
     }),
 
-  // Stores the selected answer
   submitAnswer: (question, answer) => {
     set((state) => ({
       answers: {
@@ -46,7 +53,6 @@ export const useQuizStore = create<QuizState>((set, get) => ({
     }));
   },
 
-  // Calculates final score based on correct answers
   calculateScore: () => {
     const { questions, answers } = get();
     const score = questions.reduce((total, q) => {
@@ -55,7 +61,6 @@ export const useQuizStore = create<QuizState>((set, get) => ({
     set({ score });
   },
 
-  // Go to next question
   nextQuestion: () => {
     const { currentQuestionIndex, questions } = get();
     if (currentQuestionIndex < questions.length - 1) {
@@ -63,7 +68,6 @@ export const useQuizStore = create<QuizState>((set, get) => ({
     }
   },
 
-  // Go to previous question
   prevQuestion: () => {
     const { currentQuestionIndex } = get();
     if (currentQuestionIndex > 0) {
@@ -71,12 +75,51 @@ export const useQuizStore = create<QuizState>((set, get) => ({
     }
   },
 
-  // Reset the quiz to start over
   resetQuiz: () => {
     set({
       currentQuestionIndex: 0,
       answers: {},
       score: 0,
+      resultSummary: '',
+      resultRecommendation: '',
     });
+  },
+
+  fetchResultSummary: async () => {
+    const { questions, answers } = get();
+
+    try {
+      const res = await fetch('/api/quiz/summary', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ questions, answers }),
+      });
+
+      const data = await res.json();
+      set({ resultSummary: data.summary || '' });
+    } catch (err) {
+      console.error('Failed to fetch summary:', err);
+    }
+  },
+
+  fetchResultRecommendation: async () => {
+    const { questions, answers } = get();
+
+    try {
+      const res = await fetch('/api/quiz/recommendation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ questions, answers }),
+      });
+
+      const data = await res.json();
+      set({ resultRecommendation: data.recommendation || '' });
+    } catch (err) {
+      console.error('Failed to fetch recommendation:', err);
+    }
   },
 }));
