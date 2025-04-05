@@ -1,5 +1,7 @@
 ## Use React Swipe for Using Gestures for changing pages and also for quiz
 
+## Handle Markdown Data , right now only simple text is handled
+
 ## Add the Ui and Logic of book view , sections and etc
 
 - All will have common component of listing the section
