@@ -1,9 +1,10 @@
-import { User } from 'lucide-react';
+'use client';
+
+import { UserButton } from '@clerk/nextjs';
 import BookCard from '../_components/BookCard';
 import Searchbar from '../_components/Searchbar';
 
 const BookLibraryPage = () => {
-  // Sample book data (Replace with real data when available)
   const bookArray = [
     {
       id: 1,
@@ -33,41 +34,36 @@ const BookLibraryPage = () => {
   ];
 
   return (
-    <div className="flex flex-col h-screen">
-      {/* Custom NavBar */}
-      <header className="border-b w-full h-16 flex   justify-between items-center px-4 bg-white shadow-md">
-        <img src="/logo.png" alt="Logo" className="h-12 w-auto mb-1" />
-
-        <button
-          className="flex items-center p-2 focus:outline-none"
-          aria-label="User Profile"
-        >
-          <span className="text-lg">
-            <User
-              className="bg-blue-500 text-white rounded-full"
-              height={30}
-            ></User>
-          </span>
-        </button>
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      {/* Header / Navbar */}
+      <header className="w-full px-4 py-3 bg-white border-b shadow-sm flex justify-between items-center">
+        <img
+          src="/logo.png"
+          alt="Logo"
+          className="h-10 w-auto object-contain"
+        />
+        <UserButton />
       </header>
 
-      {/* Main Content Area */}
-      <main className="flex-grow p-4 bg-gray-100 rounded-lg">
-        <h2 className="font-bold text-center">Uploaded Books</h2>
+      {/* Main Content */}
+      <main className="flex-grow px-4 py-6">
+        <h2 className="text-xl font-semibold text-center mb-4 text-gray-800">
+          Your Uploaded Books
+        </h2>
 
         {/* Search Bar */}
-        <div className="my-4">
+        <div className="mb-6">
           <Searchbar />
         </div>
 
-        {/* Book List (Always One Column) */}
-        <div className="flex flex-col gap-4 mb-16">
-          {bookArray.map((book, index) => (
+        {/* Book List */}
+        <div className="flex flex-col gap-4">
+          {bookArray.map((book) => (
             <BookCard
+              key={book.id}
               id={book.id}
-              description={book.description}
               title={book.title}
-              key={index}
+              description={book.description}
             />
           ))}
         </div>
