@@ -1,18 +1,29 @@
 'use client';
-
+import axios from 'axios';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser, SignUpButton, SignInButton } from '@clerk/nextjs';
 
 const MarketingLayout = ({ children }: { children: React.ReactNode }) => {
-  const { isSignedIn } = useUser();
+  const { isSignedIn, user } = useUser();
   const router = useRouter();
 
   useEffect(() => {
+    const registerUser = async () => {
+      if (!user) return;
+      try {
+        await axios.post('/api/user');
+        console.log('User Added to DB');
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     if (isSignedIn) {
+      registerUser();
       router.push('/dashboard'); // redirect to dashboard if logged in
     }
-  }, [isSignedIn, router]);
+  }, [isSignedIn, user, router]);
 
   if (isSignedIn) return null; // avoid flicker while redirecting
 
