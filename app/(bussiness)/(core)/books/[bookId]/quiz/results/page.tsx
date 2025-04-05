@@ -40,7 +40,7 @@ const QuizResultsPage = () => {
         {/* CTA Buttons */}
         <div className="flex justify-end gap-4 pt-4">
           <Button variant="outline">Retry Quiz</Button>
-          <Button>Go to Dashboard</Button>
+          <Button>Detailed Review</Button>
         </div>
       </div>
     </>
