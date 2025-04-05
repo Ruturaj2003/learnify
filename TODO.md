@@ -1,10 +1,4 @@
-## Functionality of navigation from Book Card to section
-
-1. Click on button eg : Read
-2. set it as global val
-3. veiw the sections of the book
-4. click on section
-5. check the global val and naviagate accoridnly
+## Use React Swipe for Using Gestures for changing pages and also for quiz
 
 ## Add the Ui and Logic of book view , sections and etc
 
