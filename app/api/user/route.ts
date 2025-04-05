@@ -1,24 +1,38 @@
 import { connectToDB } from '@/lib/mongodb';
 import User from '@/models/User';
-import { error, log } from 'console';
+import { auth, currentUser } from '@clerk/nextjs/server';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
     await connectToDB();
 
-    const { clerkId, name, email } = await req.json();
+    const { userId: clerkId } = await auth();
 
-    // Existing User
+    if (!clerkId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Check if user already exists
     const existingUser = await User.findOne({ clerkId });
     if (existingUser) {
       return NextResponse.json(
-        { messsage: 'User Already Exists' },
+        { message: 'User Already Exists' },
         { status: 200 }
       );
     }
 
+    const user = await currentUser();
+
+    if (!user) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    }
+
+    const name = `${user.firstName || ''} ${user.lastName || ''}`.trim();
+    const email = user.emailAddresses?.[0]?.emailAddress || '';
+
     const newUser = await User.create({ clerkId, name, email });
+
     return NextResponse.json(newUser, { status: 201 });
   } catch (error) {
     console.log('Error Saving User', error);
