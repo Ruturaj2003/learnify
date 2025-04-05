@@ -15,7 +15,7 @@ const UploadBookPage = () => {
   const [file, setFile] = useState<File | null>(null);
   const [bookName, setBookName] = useState('');
   const [bookDescription, setBookDescription] = useState('');
-
+  const [isProcessed, setIsProcessed] = useState(false);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files?.[0] || null);
   };
@@ -36,7 +36,7 @@ const UploadBookPage = () => {
       return;
     }
 
-    const toastId = toast.loading(`Uploading: ${file.name}`, {
+    const toastId = toast.loading(`Uploading: ${bookName}`, {
       position: 'top-center',
       style: {
         background: '#1e293b',
@@ -94,19 +94,30 @@ const UploadBookPage = () => {
               />
               <div className="flex flex-col items-center">
                 <label className="flex items-center flex-col justify-center w-full p-4 border-2 border-dashed rounded-lg cursor-pointer hover:bg-gray-50 transition">
-                  <UploadCloud className="w-6 h-6 mr-2 text-gray-500" />
-                  <span className="text-gray-700">
-                    {file ? file.name : 'Upload Book (PDF)'}
+                  <UploadCloud
+                    className={`w-6 h-6 mr-2 ${
+                      isProcessed ? 'text-green-500' : 'text-gray-500'
+                    }`}
+                  />
+                  <span
+                    className={`${
+                      !isProcessed ? 'text-gray-700' : 'text-green-500'
+                    }`}
+                  >
+                    {isProcessed ? 'Book Processed' : 'Upload Book (PDF)'}
                   </span>
-                  <UploadButton
-                    className=" text-white w-full bg-white outline-none"
-                    endpoint={'pdfUploader'}
-                    onClientUploadComplete={(res) => {
-                      toast.success('Intial Processing Complete' + res, {
-                        position: 'top-center',
-                      });
-                    }}
-                  ></UploadButton>
+                  {!isProcessed && (
+                    <UploadButton
+                      className=" text-white w-full bg-white outline-none"
+                      endpoint={'pdfUploader'}
+                      onClientUploadComplete={(res) => {
+                        toast.success('Intial Processing Complete' + res, {
+                          position: 'top-center',
+                        });
+                        setIsProcessed(true);
+                      }}
+                    ></UploadButton>
+                  )}
                 </label>
               </div>
 
