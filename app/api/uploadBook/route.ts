@@ -11,7 +11,7 @@ export async function POST(req: Request) {
   }
 
   const body = await req.json();
-  const { name, description, fileUrl } = body;
+  const { title, description, fileUrl } = body;
 
   try {
     await connectToDB();
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
     }
 
     const newBook = await Book.create({
-      name,
+      title,
       description,
       fileUrl,
       uploadedBy: user._id,
@@ -31,9 +31,10 @@ export async function POST(req: Request) {
     await User.findByIdAndUpdate(user._id, {
       $push: { books: newBook._id },
     });
-
     return new Response(JSON.stringify(newBook), { status: 201 });
   } catch (err) {
+    console.error('[BOOK_UPLOAD_ERROR]', err); // Add this line
+
     return new Response('Failed to save book', { status: 500 });
   }
 }

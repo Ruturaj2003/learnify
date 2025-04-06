@@ -1,5 +1,5 @@
 'use client';
-
+import axios from 'axios';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -12,16 +12,14 @@ import { toast } from 'sonner';
 import { UploadButton } from './_utils/uploadthing';
 
 const UploadBookPage = () => {
-  const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
   const [bookName, setBookName] = useState('');
+  const [bookLink, setBookLink] = useState('');
   const [bookDescription, setBookDescription] = useState('');
   const [isProcessed, setIsProcessed] = useState(false);
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFile(e.target.files?.[0] || null);
-  };
 
   const handleUpload = async () => {
-    if (!file) {
+    if (!isProcessed) {
       toast.error('Please select a file first', {
         position: 'top-center',
         duration: 3000,
@@ -36,32 +34,29 @@ const UploadBookPage = () => {
       return;
     }
 
-    const toastId = toast.loading(`Uploading: ${bookName}`, {
-      position: 'top-center',
-      style: {
-        background: '#1e293b',
-        color: '#f8fafc',
-        borderRadius: '10px',
-        padding: '12px',
-        fontSize: '16px',
-      },
-    });
+    try {
+      const res = await axios.post('/api/uploadBook', {
+        title: bookName,
+        description: bookDescription,
+        fileUrl: bookLink,
+      });
 
-    // Simulate an upload process (2 seconds)
-    setTimeout(() => {
-      toast.dismiss(toastId);
-      toast.success('File uploaded successfully!', {
+      toast.success('Book Uploaded To the Database', {
         position: 'top-center',
-        duration: 3000,
         style: {
-          background: '#10b981',
-          color: '#fff',
-          borderRadius: '10px',
-          padding: '12px',
-          fontSize: '16px',
+          color: '#d1ff22',
         },
       });
-    }, 2000);
+      console.log(res);
+    } catch (err) {
+      const error = err as any;
+      toast.error(
+        'Error Saving Book' + error.response?.data?.error || error.message,
+        {
+          position: 'top-center',
+        }
+      );
+    }
   };
 
   return (
@@ -110,11 +105,17 @@ const UploadBookPage = () => {
                     <UploadButton
                       className=" text-white w-full bg-white outline-none"
                       endpoint={'pdfUploader'}
+                      onUploadBegin={() => {
+                        setLoading(true);
+                      }}
                       onClientUploadComplete={(res) => {
                         toast.success('Intial Processing Complete' + res, {
                           position: 'top-center',
                         });
                         setIsProcessed(true);
+                        // setBookLink(res);
+                        setBookLink(res[0].ufsUrl);
+                        setLoading(false);
                       }}
                     ></UploadButton>
                   )}
@@ -131,6 +132,11 @@ const UploadBookPage = () => {
           </CardContent>
         </Card>
       </div>
+      {loading && (
+        <h3 className="text-2xl text-center text-slate-400">
+          Book is Processing Please wait
+        </h3>
+      )}
     </div>
   );
 };
