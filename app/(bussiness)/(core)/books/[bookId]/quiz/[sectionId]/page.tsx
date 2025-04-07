@@ -67,7 +67,7 @@ const SectionQuizPage = () => {
   return (
     <>
       <Navbar title="Quiz Section" />
-      <div className="p-4 space-y-4">
+      <div className="p-4 space-y-4 mb-16">
         {/* Question Box */}
         <div className="bg-white shadow-md rounded-md p-4 min-h-[70vh]">
           {currentQuestion ? (
