@@ -10,6 +10,7 @@ import { UploadCloud } from 'lucide-react';
 import Navbar from '../../../_components/Navbar';
 import { toast } from 'sonner';
 import { UploadButton } from './_utils/uploadthing';
+import { useRouter } from 'next/navigation';
 
 const UploadBookPage = () => {
   const [loading, setLoading] = useState(false);
@@ -17,7 +18,7 @@ const UploadBookPage = () => {
   const [bookLink, setBookLink] = useState('');
   const [bookDescription, setBookDescription] = useState('');
   const [isProcessed, setIsProcessed] = useState(false);
-
+  const router = useRouter();
   const handleUpload = async () => {
     if (!isProcessed) {
       toast.error('Please select a file first', {
@@ -54,7 +55,8 @@ const UploadBookPage = () => {
           color: '#d1ff22',
         },
       });
-      console.log(res);
+      router.push('/library');
+      console.log(processBookCall);
     } catch (err) {
       const error = err as any;
       toast.error(
