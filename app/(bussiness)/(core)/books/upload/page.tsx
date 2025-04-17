@@ -41,6 +41,13 @@ const UploadBookPage = () => {
         fileUrl: bookLink,
       });
 
+      const { bookId } = await res.data;
+
+      const processBookCall = await axios.post('/api/processBook', {
+        bookId: bookId,
+        fileUrl: bookLink,
+      });
+
       toast.success('Book Uploaded To the Database', {
         position: 'top-center',
         style: {

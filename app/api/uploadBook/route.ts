@@ -31,7 +31,11 @@ export async function POST(req: Request) {
     await User.findByIdAndUpdate(user._id, {
       $push: { books: newBook._id },
     });
-    return new Response(JSON.stringify(newBook), { status: 201 });
+
+    const bookId = newBook._id;
+    return new Response(JSON.stringify({ bookId: bookId }), {
+      status: 201,
+    });
   } catch (err) {
     console.error('[BOOK_UPLOAD_ERROR]', err); // Add this line
 
