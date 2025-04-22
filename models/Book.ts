@@ -1,13 +1,17 @@
 import mongoose, { Schema, Types } from 'mongoose';
 
-const BookSchema = new Schema(
-  {
-    title: { type: String, required: true },
-    description: String,
-    fileUrl: { type: String, required: true },
-    uploadedBy: { type: Types.ObjectId, ref: 'User', required: true },
+const bookSchema = new mongoose.Schema({
+  userId: { type: Types.ObjectId, ref: 'User', required: true },
+  title: { type: String, required: true },
+  category: { type: String, required: true },
+  description: { type: String },
+  fileUrl: { type: String, required: true },
+  status: {
+    type: String,
+    enum: ['processing', 'ready'],
+    default: 'processing',
   },
-  { timestamps: true }
-);
+  createdAt: { type: Date, default: Date.now },
+});
 
-export default mongoose.models.Book || mongoose.model('Book', BookSchema);
+export default mongoose.models.Book || mongoose.model('Books', bookSchema);
