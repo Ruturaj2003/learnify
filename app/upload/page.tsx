@@ -1,4 +1,10 @@
+import BottomNavBar from '../_components/BottomNavBar';
+
 const UploadBookPage = () => {
-  return <div>UploadBookPage</div>;
+  return (
+    <div>
+      <BottomNavBar></BottomNavBar>
+    </div>
+  );
 };
 export default UploadBookPage;

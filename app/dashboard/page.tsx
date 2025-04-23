@@ -1,4 +1,10 @@
+import BottomNavBar from '../_components/BottomNavBar';
+
 const DashboardPage = () => {
-  return <div>DashboardPage</div>;
+  return (
+    <div>
+      <BottomNavBar></BottomNavBar>
+    </div>
+  );
 };
 export default DashboardPage;
