@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDB } from "@/lib/mongodb";
-import SubChapters from "@/models/SubChapter"; // Adjust path based on your project
+import SubChapters from "@/models/SubChapter";
 import { getChapterExplanation } from "@/utils/explanation";
 
 export async function POST(req: NextRequest) {

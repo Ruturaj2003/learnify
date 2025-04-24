@@ -1,5 +1,5 @@
 import { getGeminiModel } from "@/lib/genAI";
-import type { QuizQuestion } from "../quiz";
+import type { QuizQuestion } from "../generateQuiz";
 
 const model = getGeminiModel();
 
