@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+
 const subChapterSchema = new mongoose.Schema({
   chapter: {
     type: mongoose.Schema.Types.ObjectId,
@@ -35,4 +36,6 @@ const subChapterSchema = new mongoose.Schema({
     lastAttemptedAt: { type: Date },
   },
 });
-module.exports = mongoose.model('SubChapters', subChapterSchema);
+
+const SubChapters = mongoose.models.SubChapters || mongoose.model('SubChapters', subChapterSchema);
+export default SubChapters;
