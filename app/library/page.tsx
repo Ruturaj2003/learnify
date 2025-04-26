@@ -1,67 +1,22 @@
 'use client';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import BottomNavBar from '../_components/BottomNavBar';
 import SearchBar from './_components/SearchBar';
 import BookList from './_components/BookList';
 import SortDropdown from './_components/SortDropdown';
+import { useBookStore } from '@/stores/useBookStore';
 
-// Demo data for books
-const BOOKS: Books = [
-  {
-    id: 1,
-    title: 'Atomic Habits',
-    description:
-      'An insightful guide on how tiny changes lead to remarkable results.',
-    category: 'AHelp',
-  },
-  {
-    id: 2,
-    title: 'Sapiens',
-    description: 'A brief history of humankind.',
-    category: 'History',
-  },
-  {
-    id: 3,
-    title: 'React Up & Running',
-    description: 'A practical introduction to React.js for web development.',
-    category: 'Technology',
-  },
-  {
-    id: 4,
-    title: 'The Hobbit',
-    description: 'A fantasy novel and prelude to the Lord of the Rings.',
-    category: 'Fantasy',
-  },
-  {
-    id: 5,
-    title: 'Deep Work',
-    description: 'Rules for focused success in a distracted world.',
-    category: 'Productivity',
-  },
-];
-// Define the shape of a single book
 type Book = {
-  id: number;
+  id: string;
   title: string;
   description: string;
   category: string;
 };
 
-// Define the list of books
-type Books = Book[];
-
-// Define sorting functions for different sort options
 const sortFunctions: Record<string, (a: Book, b: Book) => number> = {
-  // Sort books by title A → Z
   title_asc: (a, b) => a.title.localeCompare(b.title),
-
-  // Sort books by title Z → A
   title_desc: (a, b) => b.title.localeCompare(a.title),
-
-  // Sort books by category A → Z
   category_asc: (a, b) => a.category.localeCompare(b.category),
-
-  // Sort books by category Z → A
   category_desc: (a, b) => b.category.localeCompare(a.category),
 };
 
@@ -70,16 +25,21 @@ const LibraryPage = () => {
   const [sortKey, setSortKey] =
     useState<keyof typeof sortFunctions>('title_asc');
 
-  // Filter and sort books
+  const { books, loading, fetchBooks } = useBookStore();
+
+  useEffect(() => {
+    fetchBooks();
+  }, [fetchBooks]);
+
   const filteredBooks = useMemo(() => {
-    const result = BOOKS.filter(
+    const result = books.filter(
       (book) =>
         book.title.toLowerCase().includes(search.toLowerCase()) ||
         book.description.toLowerCase().includes(search.toLowerCase()) ||
         book.category.toLowerCase().includes(search.toLowerCase())
     );
     return result.sort(sortFunctions[sortKey]);
-  }, [search, sortKey]);
+  }, [books, search, sortKey]);
 
   return (
     <>
@@ -95,8 +55,14 @@ const LibraryPage = () => {
             </div>
           </header>
           <main className="flex-1 px-2 py-4 w-full max-w-md mx-auto">
-            <BookList books={filteredBooks} />
-            {filteredBooks.length === 0 && (
+            {loading ? (
+              <div className="text-center text-gray-500 mt-14">
+                Loading books...
+              </div>
+            ) : (
+              <BookList books={filteredBooks} />
+            )}
+            {!loading && filteredBooks.length === 0 && (
               <div className="text-center text-gray-400 mt-14">
                 No books found.
               </div>
@@ -104,8 +70,9 @@ const LibraryPage = () => {
           </main>
         </div>
       </div>
-      <BottomNavBar></BottomNavBar>
+      <BottomNavBar />
     </>
   );
 };
+
 export default LibraryPage;

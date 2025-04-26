@@ -1,7 +1,7 @@
 import BookCard from './BookCard';
 
 export interface Book {
-  id: number;
+  id: string;
   title: string;
   description: string;
   category: string;
