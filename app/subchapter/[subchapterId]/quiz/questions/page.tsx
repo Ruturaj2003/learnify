@@ -28,7 +28,7 @@ const QuizQuestionsPage = () => {
     }
 
     if (isQuizComplete) {
-      navigate.push('quiz/summary');
+      navigate.push('summary');
     }
   }, [currentQuestionIndex, isQuizComplete, navigate]);
 
@@ -46,7 +46,7 @@ const QuizQuestionsPage = () => {
   };
 
   const handleQuizComplete = () => {
-    navigate.push('quiz/summary');
+    navigate.push('summary');
   };
 
   return (
