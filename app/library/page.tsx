@@ -84,8 +84,8 @@ const LibraryPage = () => {
   return (
     <>
       <div className="pt-14 pb-14">
-        <div className="font-sans bg-gradient-to-b from-indigo-100 via-purple-50 to-white min-h-screen flex flex-col w-full">
-          <header className="sticky top-0 z-20 bg-white/90 backdrop-blur-sm border-b border-gray-200 px-4 pt-6 pb-2 flex flex-col gap-3 items-center w-full">
+        <div className="font-sans bg-linear-to-b from-indigo-100 via-purple-50 to-white min-h-screen flex flex-col w-full">
+          <header className="sticky top-0 z-20 bg-white/90 backdrop-blur-xs border-b border-gray-200 px-4 pt-6 pb-2 flex flex-col gap-3 items-center w-full">
             <h1 className="text-2xl font-bold text-indigo-700 tracking-tight">
               My Library
             </h1>

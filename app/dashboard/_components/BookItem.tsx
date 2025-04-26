@@ -58,7 +58,7 @@ const BookItem = ({ book, onDelete }: BookItemProps) => {
           onClick={() => setIsExpanded(!isExpanded)}
         >
           <div
-            className="w-10 h-14 rounded flex items-center justify-center flex-shrink-0"
+            className="w-10 h-14 rounded flex items-center justify-center shrink-0"
             style={{ backgroundColor: book.coverColor }}
           />
           <div className="flex-1 min-w-0">

@@ -52,7 +52,7 @@ const ChapterList = () => {
           Mode
         </label>
         <Select value={mode} onValueChange={setMode}>
-          <SelectTrigger className="w-full bg-white border rounded-lg py-2 px-3 shadow-sm focus:ring-2 focus:ring-primary text-sm">
+          <SelectTrigger className="w-full bg-white border rounded-lg py-2 px-3 shadow-xs focus:ring-2 focus:ring-primary text-sm">
             <SelectValue placeholder="Select mode" />
           </SelectTrigger>
           <SelectContent side="bottom" className="z-50 bg-white">
@@ -69,7 +69,7 @@ const ChapterList = () => {
       <Accordion
         type="single"
         collapsible
-        className="w-full bg-white/80 rounded-xl shadow p-2 max-w-md mx-auto"
+        className="w-full bg-white/80 rounded-xl shadow-sm p-2 max-w-md mx-auto"
       >
         {CHAPTERS.map((chapter, idx) => (
           <AccordionItem key={chapter.name} value={`item-${idx}`}>
@@ -81,7 +81,7 @@ const ChapterList = () => {
                 {chapter.sections.map((sec, sidx) => (
                   <li
                     key={sidx}
-                    className="bg-indigo-50 rounded px-3 py-2 my-1 shadow-sm"
+                    className="bg-indigo-50 rounded px-3 py-2 my-1 shadow-xs"
                   >
                     {sec}
                   </li>

@@ -16,7 +16,7 @@ const SortDropdown = ({
 }) => (
   <div className="relative">
     <select
-      className="appearance-none rounded-lg border border-gray-200 bg-white/80 py-2 pl-3 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition text-gray-700"
+      className="appearance-none rounded-lg border border-gray-200 bg-white/80 py-2 pl-3 pr-8 text-sm focus:outline-hidden focus:ring-2 focus:ring-primary focus:border-primary transition text-gray-700"
       value={value}
       onChange={(e) => onChange(e.target.value)}
       aria-label="Sort books"

@@ -9,7 +9,7 @@ const categoryColors: Record<string, string> = {
 };
 
 const BookCard = ({ book }: { book: Book }) => (
-  <div className="bg-white/90 rounded-xl shadow-sm border border-gray-200 px-4 py-3 flex flex-col gap-2 hover:shadow-md transition-shadow">
+  <div className="bg-white/90 rounded-xl shadow-xs border border-gray-200 px-4 py-3 flex flex-col gap-2 hover:shadow-md transition-shadow">
     <div className="flex items-center justify-between">
       <div className="flex-1 min-w-0">
         <h2 className="font-bold text-lg text-gray-900 truncate">

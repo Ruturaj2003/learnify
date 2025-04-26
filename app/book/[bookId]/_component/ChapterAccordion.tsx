@@ -31,7 +31,7 @@ export default function ChapterAccordion({ chapters }: ChapterAccordionProps) {
             className="rounded-2xl shadow-md border border-gray-200 transition-all duration-150 bg-white"
           >
             <button
-              className="w-full flex items-center justify-between px-6 py-4 rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 hover:bg-violet-50 transition"
+              className="w-full flex items-center justify-between px-6 py-4 rounded-2xl focus:outline-hidden focus-visible:ring-2 focus-visible:ring-violet-500 hover:bg-violet-50 transition"
               onClick={() => setOpenIdx(open ? null : idx)}
               aria-expanded={open}
               aria-controls={`accordion-content-${idx}`}

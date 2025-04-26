@@ -27,9 +27,9 @@ export default function ModeSelector({ value, onChange }: ModeSelectorProps) {
               key={key}
               type="button"
               className={
-                'flex items-center px-4 py-2 font-medium rounded-full transition-all duration-150 outline-none focus-visible:ring-2 l ' +
+                'flex items-center px-4 py-2 font-medium rounded-full transition-all duration-150 outline-hidden focus-visible:ring-2 l ' +
                 (active
-                  ? 'bg-violet-100 text-violet-700 shadow'
+                  ? 'bg-violet-100 text-violet-700 shadow-sm'
                   : 'text-gray-600 hover:bg-gray-200')
               }
               aria-pressed={active}
