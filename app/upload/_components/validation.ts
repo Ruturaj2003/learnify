@@ -1,4 +1,4 @@
-export type FileErrorType = 'size' | 'type' | null;
+export type FileErrorType = 'size' | 'type' | 'missing' | null;
 
 export interface ValidationResult {
   isValid: boolean;
@@ -49,35 +49,22 @@ export const validateDescription = (description: string): ValidationResult => {
   return { isValid: true };
 };
 
-export const validateFile = (file: File | null): ValidationResult => {
-  if (!file) {
+// 🆕 Updated validateFile to validate file URL
+export const validateFile = (fileUrl: string | null): ValidationResult => {
+  if (!fileUrl) {
     return { isValid: false, message: 'Please upload a book file' };
   }
 
-  const supportedFormats = [
-    'application/pdf',
-    'application/epub+zip',
-    'application/x-mobipocket-ebook',
-  ];
-  const fileExtension = file.name.split('.').pop()?.toLowerCase();
+  const lowerUrl = fileUrl.toLowerCase();
 
   if (
-    !supportedFormats.includes(file.type) &&
-    !['pdf'].includes(fileExtension || '')
+    !lowerUrl.endsWith('.pdf') &&
+    !lowerUrl.endsWith('.epub') &&
+    !lowerUrl.endsWith('.mobi')
   ) {
     return {
       isValid: false,
-      message:
-        'Unsupported file format. Please upload a PDF, EPUB, or MOBI file',
-    };
-  }
-
-  // 50MB max size
-  const maxSize = 50 * 1024 * 1024;
-  if (file.size > maxSize) {
-    return {
-      isValid: false,
-      message: 'File is too large. Maximum file size is 50MB',
+      message: 'Unsupported file type. Only PDF, EPUB, or MOBI are allowed',
     };
   }
 
