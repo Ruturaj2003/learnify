@@ -1,46 +1,53 @@
-// @ts-nocheck
-
+import { NextRequest, NextResponse } from 'next/server';
+import mongoose from 'mongoose';
+// import Chapters from '@/models/Chapters'; // adjust the import path
+// import SubChapters from '@/models/SubChapters'; // assuming you have SubChapters model
+// your mongoose connect utility
 import { connectToDB } from '@/lib/mongodb';
-import Chapter from '@/models/Chapter';
-import SubChapter from '@/models/SubChapter';
-import { NextResponse } from 'next/server';
+import SubChapters from '@/models/SubChapter';
+import Chapters from '@/models/Chapter';
+export async function POST(req: NextRequest) {
+  await connectToDB();
 
-export async function GET() {
   try {
-    await connectToDB();
+    const { bookId } = await req.json();
 
-    // Fetch chapters with their subchapters
-    const chapters = await Chapter.find({}, {
-      book: 1,
-      chapterName: 1,
-      chapterNumber: 1
-    }).lean();
+    if (!bookId) {
+      return NextResponse.json(
+        { error: 'Book ID is required' },
+        { status: 400 }
+      );
+    }
 
-    const formattedChapters = await Promise.all(chapters.map(async (chapter) => {
-      // Fetch the subchapters for each chapter
-      const subChapters = await SubChapter.find({ chapter: chapter._id }, {
-        chapterName: 1,
-        chapterNumber: 1,
-        originalText: 1
-      }).lean();
-
-      return {
-        chapterId: chapter._id.toString(),
-        title: chapter.chapterName,
-        subChapters: subChapters.map((subchapter: any) => ({
-          subchapterId: subchapter._id.toString(),
-          title: subchapter.chapterName
-        }))
-      };
-    }));
-
-    return NextResponse.json({
-      status: 200,
-      message: 'Chapters fetched successfully',
-      data: formattedChapters
+    // Find chapters for the book
+    const chapters = await Chapters.find({ book: bookId }).sort({
+      chapterNumber: 1,
     });
-  } catch (err) {
-    console.error('[CHAPTER_FETCH_ERROR]', err);
-    return new NextResponse('Failed to fetch chapters', { status: 500 });
+
+    // For each chapter, fetch its subChapters
+    const formattedChapters = await Promise.all(
+      chapters.map(async (chapter) => {
+        const subChapters = await SubChapters.find({
+          chapter: chapter._id,
+        }).sort({ subchapterNumber: 1 });
+
+        return {
+          chapterId: chapter._id,
+          title: chapter.chapterName,
+          subChapters: subChapters.map((sub) => ({
+            subchapterId: sub._id.toString(),
+            title: sub.chapterName,
+          })),
+        };
+      })
+    );
+
+    return NextResponse.json(formattedChapters, { status: 200 });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: 'Something went wrong' },
+      { status: 500 }
+    );
   }
 }

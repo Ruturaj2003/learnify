@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import Link from 'next/link';
+import { useChapterStore } from '@/stores/useChapterStore';
 
 interface ChapterAccordionProps {
   chapters: Chapter[];
@@ -9,7 +10,7 @@ interface ChapterAccordionProps {
 
 export type SubChapter = {
   title: string;
-  subchapterId: number | string;
+  subchapterId: string;
 };
 
 export type Chapter = {
@@ -18,9 +19,15 @@ export type Chapter = {
   subChapters: SubChapter[];
 };
 
-export default function ChapterAccordion({ chapters }: ChapterAccordionProps) {
+export default function ChapterAccordion() {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
+  console.log('from Chapter Acc');
+  const { chapters } = useChapterStore();
 
+  console.log('Chapters from store:', chapters);
+  if (chapters.length === 0) {
+    return <p className="text-center text-gray-500">No chapters found.</p>;
+  }
   return (
     <div className="flex flex-col gap-4 w-full max-w-md mx-auto pt-4">
       {chapters.map((chapter, idx) => {

@@ -23,9 +23,9 @@ const subChapterSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
-  explanationStatus: {
+  completedStatus: {
     type: String,
-    enum: ['pending', 'completed', 'failed'],
+    enum: ['pending', 'completed'],
     default: 'pending',
   },
   quiz: {
@@ -37,5 +37,7 @@ const subChapterSchema = new mongoose.Schema({
   },
 });
 
-const SubChapters = mongoose.models.SubChapters || mongoose.model('SubChapters', subChapterSchema);
+const SubChapters =
+  mongoose.models.SubChapters ||
+  mongoose.model('SubChapters', subChapterSchema);
 export default SubChapters;

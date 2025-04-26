@@ -23,6 +23,7 @@ export const useBookStore = create<BookStore>((set) => ({
       const data = await res.json();
       if (res.ok) {
         set({ books: data.data });
+        console.log(data.data);
       } else {
         console.error('Failed to fetch books:', data.message);
       }
