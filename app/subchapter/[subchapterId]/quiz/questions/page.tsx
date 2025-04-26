@@ -22,10 +22,10 @@ const QuizQuestionsPage = () => {
   } = useQuizStore();
 
   useEffect(() => {
-    if (currentQuestionIndex === -1) {
-      // Quiz hasn't been started, redirect to home
-      navigate.push('/');
-    }
+    // if (currentQuestionIndex === -1) {
+    //   // Quiz hasn't been started, redirect to home
+    //   navigate.push('/');
+    // }
 
     if (isQuizComplete) {
       navigate.push('summary');

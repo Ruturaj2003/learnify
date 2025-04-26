@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import Link from 'next/link';
 import { useChapterStore } from '@/stores/useChapterStore';
+import { useRouter } from 'next/navigation';
 
 interface ChapterAccordionProps {
   chapters: Chapter[];
@@ -21,13 +22,21 @@ export type Chapter = {
 
 export default function ChapterAccordion() {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
-  console.log('from Chapter Acc');
-  const { chapters } = useChapterStore();
 
+  const { chapters, mode, setCurrentSubchapter } = useChapterStore();
+  const router = useRouter();
   console.log('Chapters from store:', chapters);
   if (chapters.length === 0) {
     return <p className="text-center text-gray-500">No chapters found.</p>;
   }
+
+  // @ts-ignore
+  function handleClick(id, name) {
+    setCurrentSubchapter(id, name);
+    router.push(`/subchapter/${id}
+                        /${mode}`);
+  }
+
   return (
     <div className="flex flex-col gap-4 w-full max-w-md mx-auto pt-4">
       {chapters.map((chapter, idx) => {
@@ -68,12 +77,12 @@ export default function ChapterAccordion() {
                 {open &&
                   chapter.subChapters.map((sub) => (
                     <li key={sub.subchapterId} className="py-2">
-                      <Link
-                        href={`/subchapter/${sub.subchapterId}`}
+                      <button
+                        onClick={() => handleClick(sub.subchapterId, sub.title)}
                         className="text-sm text-violet-700 hover:underline hover:text-violet-900 transition-colors line-clamp-3"
                       >
                         {sub.title}
-                      </Link>
+                      </button>
                     </li>
                   ))}
               </ul>

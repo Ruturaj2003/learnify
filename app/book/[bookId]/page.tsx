@@ -14,8 +14,6 @@ const ChapterListPage = () => {
   const { chapters, mode, setMode, fetchChapters, loading, error } =
     useChapterStore();
 
-  console.log('from Main Page');
-  console.log(chapters);
   useEffect(() => {
     if (bookId) {
       fetchChapters(bookId);

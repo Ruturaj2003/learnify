@@ -12,13 +12,20 @@ export type Chapter = {
 
 type Mode = 'read' | 'quiz' | 'explain';
 
+type CurrentSubchapter = {
+  subId: string;
+  subchapterName: string;
+};
+
 interface ChapterState {
   chapters: Chapter[];
   mode: Mode;
   loading: boolean;
   error: string | null;
+  currentSubchapter: CurrentSubchapter;
   fetchChapters: (bookId: string) => Promise<void>;
   setMode: (mode: Mode) => void;
+  setCurrentSubchapter: (subchapterId: string, subchapterName: string) => void;
 }
 
 export const useChapterStore = create<ChapterState>((set) => ({
@@ -26,6 +33,10 @@ export const useChapterStore = create<ChapterState>((set) => ({
   mode: 'read',
   loading: false,
   error: null,
+  currentSubchapter: {
+    subId: '',
+    subchapterName: '',
+  },
 
   fetchChapters: async (bookId) => {
     set({ loading: true, error: null });
@@ -41,4 +52,12 @@ export const useChapterStore = create<ChapterState>((set) => ({
   },
 
   setMode: (mode) => set({ mode }),
+
+  setCurrentSubchapter: (subchapterId: string, subchapterName: string) =>
+    set({
+      currentSubchapter: {
+        subId: subchapterId,
+        subchapterName: subchapterName,
+      },
+    }),
 }));

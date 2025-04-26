@@ -1,5 +1,8 @@
+//@ts-nocheck
 import { create } from 'zustand';
+import axios from 'axios';
 
+// --- Types ---
 export type QuizOption = {
   id: string;
   text: string;
@@ -23,82 +26,81 @@ type QuizStore = {
   answers: QuizAnswer[];
   score: number;
   isQuizComplete: boolean;
+  loading: boolean;
+  error: string | null;
+  startQuiz: (subChapterId: string) => Promise<void>;
   selectAnswer: (questionId: string, optionId: string) => void;
   nextQuestion: () => void;
   previousQuestion: () => void;
   finishQuiz: () => void;
   resetQuiz: () => void;
-  startQuiz: () => void;
   calculateScore: () => number;
   getQuestionResult: (
     questionId: string
   ) => 'correct' | 'incorrect' | 'unanswered';
 };
 
-const sampleQuizData: QuizQuestion[] = [
-  {
-    id: 'q1',
-    question: 'What is the capital of France?',
-    options: [
-      { id: 'q1_a', text: 'London' },
-      { id: 'q1_b', text: 'Paris' },
-      { id: 'q1_c', text: 'Berlin' },
-      { id: 'q1_d', text: 'Madrid' },
-    ],
-    correctOptionId: 'q1_b',
-  },
-  {
-    id: 'q2',
-    question: 'Which planet is closest to the sun?',
-    options: [
-      { id: 'q2_a', text: 'Earth' },
-      { id: 'q2_b', text: 'Venus' },
-      { id: 'q2_c', text: 'Mercury' },
-      { id: 'q2_d', text: 'Mars' },
-    ],
-    correctOptionId: 'q2_c',
-  },
-  {
-    id: 'q3',
-    question: 'What is the largest ocean on Earth?',
-    options: [
-      { id: 'q3_a', text: 'Atlantic Ocean' },
-      { id: 'q3_b', text: 'Indian Ocean' },
-      { id: 'q3_c', text: 'Arctic Ocean' },
-      { id: 'q3_d', text: 'Pacific Ocean' },
-    ],
-    correctOptionId: 'q3_d',
-  },
-  {
-    id: 'q4',
-    question: 'Which of these is not a programming language?',
-    options: [
-      { id: 'q4_a', text: 'Python' },
-      { id: 'q4_b', text: 'Java' },
-      { id: 'q4_c', text: 'HTML' },
-      { id: 'q4_d', text: 'Cobra' },
-    ],
-    correctOptionId: 'q4_d',
-  },
-  {
-    id: 'q5',
-    question: 'What year was the first iPhone released?',
-    options: [
-      { id: 'q5_a', text: '2005' },
-      { id: 'q5_b', text: '2007' },
-      { id: 'q5_c', text: '2009' },
-      { id: 'q5_d', text: '2010' },
-    ],
-    correctOptionId: 'q5_b',
-  },
-];
+// --- Helper Function ---
+function transformQuizData(serverData: any): QuizQuestion[] {
+  return serverData.quiz.map((item: any, index: number) => {
+    const questionId = `q${index}`;
+    const optionIds = ['a', 'b', 'c', 'd'];
 
+    const options = item.options.map(
+      (optionText: string, optionIndex: number) => ({
+        id: `${questionId}_${optionIds[optionIndex]}`,
+        text: optionText,
+      })
+    );
+
+    const correctOption = options.find((opt) => opt.text === item.answer);
+
+    return {
+      id: questionId,
+      question: item.question,
+      options: options,
+      correctOptionId: correctOption ? correctOption.id : '',
+    };
+  });
+}
+
+// --- Store ---
 export const useQuizStore = create<QuizStore>((set, get) => ({
-  questions: sampleQuizData,
+  questions: [],
   currentQuestionIndex: -1,
   answers: [],
   score: 0,
   isQuizComplete: false,
+  loading: false,
+  error: null,
+
+  startQuiz: async (subChapterId: string) => {
+    set({ loading: true, error: null });
+
+    try {
+      console.log('Fetching Quiz...');
+      const response = await axios.post('/api/quiz', { subChapterId });
+      console.log(response.data);
+
+      const formattedQuiz = transformQuizData(response.data);
+      console.log(formattedQuiz);
+
+      set({
+        questions: formattedQuiz,
+        currentQuestionIndex: 0,
+        answers: [],
+        score: 0,
+        isQuizComplete: false,
+        loading: false,
+      });
+    } catch (error: any) {
+      console.error('Error starting quiz:', error);
+      set({
+        error: error.message || 'Failed to start quiz',
+        loading: false,
+      });
+    }
+  },
 
   selectAnswer: (questionId, optionId) => {
     set((state) => {
@@ -147,14 +149,9 @@ export const useQuizStore = create<QuizStore>((set, get) => ({
       answers: [],
       score: 0,
       isQuizComplete: false,
-    }),
-
-  startQuiz: () =>
-    set({
-      currentQuestionIndex: 0,
-      answers: [],
-      score: 0,
-      isQuizComplete: false,
+      questions: [],
+      loading: false,
+      error: null,
     }),
 
   calculateScore: () => {
