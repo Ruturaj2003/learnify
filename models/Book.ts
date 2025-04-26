@@ -6,12 +6,10 @@ const bookSchema = new mongoose.Schema({
   category: { type: String, required: true },
   description: { type: String },
   fileUrl: { type: String, required: true },
-  status: {
-    type: String,
-    enum: ['processing', 'ready'],
-    default: 'processing',
-  },
   createdAt: { type: Date, default: Date.now },
+  lastAccessed: { type: Date, default: Date.now },
 });
 
-export default mongoose.models.Book || mongoose.model('Books', bookSchema);
+const Book = mongoose.models.Book || mongoose.model('Book', bookSchema);
+
+export default Book;

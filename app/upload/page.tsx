@@ -31,6 +31,7 @@ const UploadBookPage = () => {
     }
 
     try {
+      // Make POST request to save the book
       const res = await axios.post('/api/uploadBook', {
         title: bookName,
         description: bookDescription,
@@ -40,6 +41,7 @@ const UploadBookPage = () => {
 
       const { bookId } = res.data;
 
+      // Optionally, process the book file further (could be for indexing, etc.)
       await axios.post('/api/processBook', {
         bookId,
         fileUrl: bookLink,
@@ -196,7 +198,7 @@ const UploadBookPage = () => {
           </div>
         )}
       </div>
-      <BottomNavBar></BottomNavBar>
+      <BottomNavBar />
     </>
   );
 };
