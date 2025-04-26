@@ -1,3 +1,5 @@
+'use client';
+import { useRouter } from 'next/navigation';
 import { Book } from './BookList';
 import { useMemo } from 'react';
 
@@ -14,6 +16,7 @@ const colorClasses = [
 ];
 
 const BookCard = ({ book }: { book: Book }) => {
+  const router = useRouter();
   const categoryColor = useMemo(() => {
     const map = new Map<string, string>();
     return (category: string) => {
@@ -27,7 +30,10 @@ const BookCard = ({ book }: { book: Book }) => {
   }, []);
 
   return (
-    <div className="bg-white/90 rounded-xl shadow-xs border border-gray-200 px-4 py-3 flex flex-col gap-2 hover:shadow-md transition-shadow">
+    <div
+      onClick={() => router.push(`/book/${book.id}`)}
+      className="bg-white/90 rounded-xl shadow-xs border border-gray-200 px-4 py-3 flex flex-col gap-2 hover:shadow-md transition-shadow"
+    >
       <div className="flex items-center justify-between">
         <div className="flex-1 min-w-0">
           <h2 className="font-bold text-lg text-gray-900 truncate">
