@@ -5,8 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { Home, ArrowLeft, ArrowRight } from 'lucide-react';
-import { useRouter } from 'next/router';
+useRouter;
 import QuizOption from '../_components/QuizOption';
+import { useRouter } from 'next/navigation';
 
 const QuizReviewPage = () => {
   const navigate = useRouter();
