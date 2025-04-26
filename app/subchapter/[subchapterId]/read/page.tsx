@@ -4,12 +4,14 @@ import { ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useInView } from 'react-intersection-observer';
 import { cn } from '@/lib/utils';
+import ViewModeToggle from './_components/ViewModeToggel';
+import { useRouter } from 'next/navigation';
 
 const Reader = () => {
   const [currentChapter, setCurrentChapter] = useState(1);
   const [progress, setProgress] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
-
+  const router = useRouter();
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
@@ -50,7 +52,7 @@ const Reader = () => {
         {/* Fixed Navbar */}
         <div className="fixed top-0 left-0 w-full p-4 flex justify-between items-center bg-purple-100 dark:bg-purple-900 bg-opacity-80 backdrop-blur-sm z-20 rounded-lg">
           {/* Back Button */}
-          <Button variant="ghost" size="icon">
+          <Button onClick={() => router.back()} variant="ghost" size="icon">
             <ChevronLeft className="h-6 w-6 text-purple-700 dark:text-purple-300 hover:text-purple-500 transition-colors" />
           </Button>
 
@@ -60,14 +62,7 @@ const Reader = () => {
           </h2>
 
           {/* Placeholder Button */}
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => alert('Lorem Ipsum clicked!')}
-            className="hover:text-purple-500 transition-colors"
-          >
-            Lorem Ipsum
-          </Button>
+          <ViewModeToggle></ViewModeToggle>
         </div>
 
         {/* Reading Content */}
