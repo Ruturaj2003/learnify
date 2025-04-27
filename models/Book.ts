@@ -6,6 +6,7 @@ const bookSchema = new mongoose.Schema({
   category: { type: String, required: true },
   description: { type: String },
   fileUrl: { type: String, required: true },
+  startsFrom: { type: Number },
   createdAt: { type: Date, default: Date.now },
   lastAccessed: { type: Date, default: Date.now },
 });

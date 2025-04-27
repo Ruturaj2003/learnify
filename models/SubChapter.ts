@@ -28,6 +28,10 @@ const subChapterSchema = new mongoose.Schema({
     enum: ['pending', 'completed'],
     default: 'pending',
   },
+  pdfBuffer: {
+    type: Buffer, // Store the PDF as a binary buffer
+    required: true,
+  },
   quiz: {
     attempted: { type: Boolean, default: false },
     correctAnswers: { type: Number, default: 0 },
