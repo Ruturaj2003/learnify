@@ -12,7 +12,7 @@ export async function POST(req: Request) {
   }
 
   const body = await req.json();
-  const { title, description, fileUrl, category } = body;
+  const { title, description, fileUrl, category, startsFrom } = body;
 
   try {
     await connectToDB();
@@ -29,6 +29,7 @@ export async function POST(req: Request) {
       fileUrl,
       category,
       userId: user._id,
+      startsFrom,
     });
 
     // Add the book ID to the user's books list

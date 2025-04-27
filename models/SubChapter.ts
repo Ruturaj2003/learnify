@@ -30,7 +30,8 @@ const subChapterSchema = new mongoose.Schema({
   },
   pdfBuffer: {
     type: Buffer, // Store the PDF as a binary buffer
-    required: true,
+    // required: true,
+    default: null,
   },
   quiz: {
     attempted: { type: Boolean, default: false },

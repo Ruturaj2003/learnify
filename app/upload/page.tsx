@@ -19,6 +19,7 @@ const UploadBookPage = () => {
   const [bookCategory, setBookCategory] = useState('');
   const [bookLink, setBookLink] = useState('');
   const [bookDescription, setBookDescription] = useState('');
+  const [startsFrom, setStartsFrom] = useState('');
   const [isProcessed, setIsProcessed] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState('');
   const [uploadedFileSize, setUploadedFileSize] = useState(0);
@@ -37,6 +38,7 @@ const UploadBookPage = () => {
         description: bookDescription,
         category: bookCategory,
         fileUrl: bookLink,
+        startsFrom: Number(startsFrom),
       });
 
       const { bookId } = res.data;
@@ -101,6 +103,13 @@ const UploadBookPage = () => {
                   placeholder="Category (e.g., Science, Fiction)"
                   value={bookCategory}
                   onChange={(e) => setBookCategory(e.target.value)}
+                  className="w-full p-2 border-violet-300 focus:ring-violet-400"
+                />
+                <Input
+                  type="text"
+                  placeholder="Page Before Start Page"
+                  value={startsFrom}
+                  onChange={(e) => setStartsFrom(e.target.value)}
                   className="w-full p-2 border-violet-300 focus:ring-violet-400"
                 />
                 <Textarea
