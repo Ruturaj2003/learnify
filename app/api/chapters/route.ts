@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import { connectToDB } from '@/lib/mongodb';
 import SubChapters from '@/models/SubChapter';
 import Chapters from '@/models/Chapter';
+import Book from '@/models/Book';
 export async function POST(req: NextRequest) {
   await connectToDB();
 
@@ -41,7 +42,9 @@ export async function POST(req: NextRequest) {
         };
       })
     );
-
+    await Book.findByIdAndUpdate(bookId, {
+      lastAccessed: new Date(),
+    });
     return NextResponse.json(formattedChapters, { status: 200 });
   } catch (error) {
     console.error(error);
