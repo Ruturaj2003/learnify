@@ -1,8 +1,14 @@
-"use client";
-import axios from "axios";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useUser, SignUpButton, SignInButton } from "@clerk/nextjs";
+'use client';
+import axios from 'axios';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useUser, SignUpButton, SignInButton } from '@clerk/nextjs';
+import Header from './_components/Header';
+import Hero from './_components/Hero';
+import Features from './_components/Features';
+import HowItWorks from './_components/HowItWorks';
+import CTA from './_components/CTA';
+import Footer from './_components/Footer';
 const LandingPage = () => {
   const { isSignedIn, user } = useUser();
   const router = useRouter();
@@ -11,8 +17,8 @@ const LandingPage = () => {
     const registerUser = async () => {
       if (!user) return;
       try {
-        await axios.post("/api/user");
-        console.log("User Added to DB");
+        await axios.post('/api/user');
+        console.log('User Added to DB');
       } catch (err) {
         console.log(err);
       }
@@ -20,34 +26,21 @@ const LandingPage = () => {
 
     if (isSignedIn) {
       registerUser();
-      router.push("/dashboard"); // redirect to dashboard if logged in
+      router.push('/dashboard'); // redirect to dashboard if logged in
     }
   }, [isSignedIn, user, router]);
 
   if (isSignedIn) return null; // avoid flicker while redirecting
   return (
-    <div className="min-h-screen flex flex-col">
-      <nav className="flex items-center justify-between px-4 py-3 shadow bg-white">
-        {/* Logo */}
-        <img src="logo.png" alt="Logo" className="h-8 w-auto object-contain" />
-
-        {/* Buttons */}
-        <div className="flex items-center space-x-2">
-          <SignUpButton mode="modal">
-            <button className="px-3 py-1 text-sm border border-gray-300 rounded-full hover:bg-gray-100">
-              Sign Up
-            </button>
-          </SignUpButton>
-
-          <SignInButton mode="modal">
-            <button className="px-3 py-1 text-sm bg-black text-white rounded-full hover:bg-gray-800">
-              Login
-            </button>
-          </SignInButton>
-        </div>
-      </nav>
-
-      {/* Page Content */}
+    <div className="min-h-screen">
+      <Header />
+      <main>
+        <Hero />
+        <Features />
+        <HowItWorks />
+        <CTA />
+      </main>
+      <Footer />
     </div>
   );
 };
