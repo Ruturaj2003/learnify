@@ -1,6 +1,10 @@
 import { Button } from "@/components/ui/button";
 
-const Hero = () => {
+interface HeroProps {
+  scrollToHowItWorks: () => void;
+}
+
+const Hero: React.FC<HeroProps> = ({ scrollToHowItWorks }) => {
   return (
     <section className="pt-24 md:pt-32 pb-16 md:pb-24 overflow-hidden bg-white">
       <div className="container mx-auto px-4 md:px-6">
@@ -32,6 +36,7 @@ const Hero = () => {
               size="lg"
               variant="outline"
               className="w-full sm:w-auto border-gray-300 text-gray-700 hover:bg-gray-100"
+              onClick={scrollToHowItWorks}
             >
               See How It Works
             </Button>

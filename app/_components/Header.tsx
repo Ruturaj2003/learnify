@@ -1,9 +1,9 @@
 // @ts-nocheck
 
-import { Button } from '@/components/ui/button';
-import React from 'react';
-import Link from 'next/link';
-import { SignInButton } from '@clerk/nextjs';
+import { Button } from "@/components/ui/button";
+import React from "react";
+import Link from "next/link";
+import { SignInButton } from "@clerk/nextjs";
 
 const Header = () => {
   return (
