@@ -22,10 +22,10 @@ const ChapterListPage = () => {
 
   return (
     <>
-      <div className="pt-16 pb-20 px-4">
+      <div className="pt-2 pb-20 px-4">
         <div className="min-h-screen bg-gradient-to-b from-white via-indigo-50 to-white flex flex-col gap-6">
           {/* Mode Selector */}
-          <section className="flex justify-center mb-6">
+          <section className="flex justify-center mb-2">
             <ModeSelector value={mode} onChange={setMode} />
           </section>
 
