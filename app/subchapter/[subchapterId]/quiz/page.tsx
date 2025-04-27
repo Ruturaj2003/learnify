@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import BottomNavBar from '@/app/_components/BottomNavBar';
-import Navbar from '@/app/_components/Navbar';
-import { Button } from '@/components/ui/button';
-import { useChapterStore } from '@/stores/useChapterStore';
-import { useQuizStore } from '@/stores/useQuizStore';
-import { useParams, useRouter } from 'next/navigation';
+import BottomNavBar from "@/app/_components/BottomNavBar";
+import Navbar from "@/app/_components/Navbar";
+import { Button } from "@/components/ui/button";
+import { useChapterStore } from "@/stores/useChapterStore";
+import { useQuizStore } from "@/stores/useQuizStore";
+import { useParams, useRouter } from "next/navigation";
 
 const QuizHomePage = () => {
   const { startQuiz } = useQuizStore();
@@ -16,13 +16,13 @@ const QuizHomePage = () => {
 
   const handleStartQuiz = async () => {
     if (!subId) {
-      console.error('Subchapter ID is missing!');
+      console.error("Subchapter ID is missing!");
       return;
     }
     console.log(currentSubchapter);
 
     await startQuiz(currentSubchapter.subId); // Wait for quiz to load
-    router.push('quiz/questions'); // Make sure route is correct
+    router.push("quiz/questions"); // Make sure route is correct
   };
   return (
     <>
@@ -33,7 +33,7 @@ const QuizHomePage = () => {
           <p className="text-gray-500 mb-8">
             Get ready to test your knowledge on <br></br>
             <span className="font-semibold text-purple-600">
-              {currentSubchapter.subchapterName || 'this topic'}
+              {currentSubchapter.subchapterName || "this topic"}
             </span>
             .
           </p>

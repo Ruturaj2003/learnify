@@ -1,22 +1,25 @@
 // @ts-nocheck
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { toast } from 'sonner';
-import BottomNavBar from '../_components/BottomNavBar';
-import BookList from './_components/BookList';
-import FeaturedBook from './_components/FeaturedBook';
-import Header from './_components/Header';
-import { useDashboardStore } from '@/stores/useDashboardStore';
-import { useUser } from '@clerk/nextjs';
+import { useEffect } from "react";
+import { toast } from "sonner";
+import BottomNavBar from "../_components/BottomNavBar";
+import BookList from "./_components/BookList";
+import FeaturedBook from "./_components/FeaturedBook";
+import Header from "./_components/Header";
+import { useDashboardStore } from "@/stores/useDashboardStore";
+import { useUser } from "@clerk/nextjs";
+import Spinner from "../_components/Spinner"; // Import the Spinner component
 
 const DashboardPage = () => {
-  const { books, fetchBooks, deleteBook } = useDashboardStore();
+  const { books, fetchBooks, deleteBook, loading, error } = useDashboardStore();
   const { user } = useUser();
+
   useEffect(() => {
-    fetchBooks(); // Fetch on mount
+    fetchBooks(); // Fetch books on mount
   }, [fetchBooks]);
 
+  // Sort books by the lastAccessed date
   const sortedBooks = [...books].sort((a, b) => {
     if (!a.lastAccessed) return 1;
     if (!b.lastAccessed) return -1;
@@ -29,7 +32,7 @@ const DashboardPage = () => {
 
   const handleDeleteBook = (id: string) => {
     deleteBook(id);
-    toast.success('Book deleted successfully');
+    toast.success("Book deleted successfully");
   };
 
   return (
@@ -39,9 +42,17 @@ const DashboardPage = () => {
           <div className="max-w-md mx-auto px-4 py-6 bg-white min-h-screen">
             <Header name={user?.fullName} avatarUrl={user?.imageUrl} />
 
-            {featuredBook && <FeaturedBook book={featuredBook} />}
-
-            <BookList books={books} onDeleteBook={handleDeleteBook} />
+            {/* Display the loading spinner while books are loading */}
+            {loading ? (
+              <Spinner />
+            ) : error ? (
+              <div className="text-center text-red-500">{error}</div>
+            ) : (
+              <>
+                {featuredBook && <FeaturedBook book={featuredBook} />}
+                <BookList books={books} onDeleteBook={handleDeleteBook} />
+              </>
+            )}
           </div>
         </div>
       </div>

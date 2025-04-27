@@ -1,16 +1,19 @@
-'use client';
-import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useInView } from 'react-intersection-observer';
-import { cn } from '@/lib/utils';
-import ViewModeToggle from './_components/ViewModeToggel';
-import { useRouter } from 'next/navigation';
-import { useExplanationStore } from '@/stores/useExplainationStore';
-import { useChapterStore } from '@/stores/useChapterStore';
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
+import { ChevronLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useInView } from "react-intersection-observer";
+import { cn } from "@/lib/utils";
+import ViewModeToggle from "./_components/ViewModeToggel";
+import { useRouter } from "next/navigation";
+import { useExplanationStore } from "@/stores/useExplainationStore";
+import { useChapterStore } from "@/stores/useChapterStore";
+import Spinner from "../../../_components/Spinner"; // <-- Added Spinner import
 
 const Reader = () => {
   const [progress, setProgress] = useState(0);
+  const [loading, setLoading] = useState(true); // <-- Added loading state
   const contentRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { ref, inView } = useInView({
@@ -18,7 +21,7 @@ const Reader = () => {
     triggerOnce: true,
   });
   const { currentSubchapter } = useChapterStore();
-  const chapterId = currentSubchapter.subId; // Example chapterId; replace this as per your dynamic logic
+  const chapterId = currentSubchapter.subId;
 
   const {
     simpleExplanationHtml,
@@ -28,12 +31,15 @@ const Reader = () => {
     fetchExplanations,
   } = useExplanationStore();
 
-  console.log(viewMode);
-  console.log(currentSubchapter);
-
   // Fetch explanations when the chapterId changes
   useEffect(() => {
-    fetchExplanations(chapterId);
+    const fetchData = async () => {
+      setLoading(true); // Start loading
+      await fetchExplanations(chapterId);
+      setLoading(false); // Stop loading after fetching
+    };
+
+    fetchData();
   }, [chapterId, fetchExplanations]);
 
   // Handle scroll for progress
@@ -47,7 +53,7 @@ const Reader = () => {
 
   // Get the current explanation based on the viewMode
   const currentExplanation =
-    viewMode === 'simple' ? simpleExplanationHtml : detailedExplanationHtml;
+    viewMode === "simple" ? simpleExplanationHtml : detailedExplanationHtml;
 
   return (
     <div>
@@ -81,22 +87,29 @@ const Reader = () => {
           ref={contentRef}
           className="w-full max-w-xl mx-auto px-6 py-16 md:px-8 lg:px-10"
         >
-          <div
-            ref={ref}
-            className={cn(
-              'bg-white/80 dark:bg-gray-900/80 rounded-xl p-6 shadow-lg transition-opacity duration-500 h-[85vh] overflow-y-auto',
-              inView ? 'opacity-100' : 'opacity-0'
-            )}
-            onScroll={handleScroll}
-          >
-            <div className="prose pt-8 dark:prose-invert max-w-none">
-              {/* Explanation Content */}
-              <div
-                className="mb-6 text-lg leading-relaxed font-literata text-gray-800 dark:text-gray-200"
-                dangerouslySetInnerHTML={{ __html: currentExplanation }} // Render HTML content
-              />
+          {loading ? (
+            // Spinner while loading
+            <div className="flex justify-center items-center h-[80vh]">
+              <Spinner />
             </div>
-          </div>
+          ) : (
+            <div
+              ref={ref}
+              className={cn(
+                "bg-white/80 dark:bg-gray-900/80 rounded-xl p-6 shadow-lg transition-opacity duration-500 h-[85vh] overflow-y-auto",
+                inView ? "opacity-100" : "opacity-0"
+              )}
+              onScroll={handleScroll}
+            >
+              <div className="prose pt-8 dark:prose-invert max-w-none">
+                {/* Explanation Content */}
+                <div
+                  className="mb-6 text-lg leading-relaxed font-literata text-gray-800 dark:text-gray-200"
+                  dangerouslySetInnerHTML={{ __html: currentExplanation }}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

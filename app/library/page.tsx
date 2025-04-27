@@ -6,6 +6,7 @@ import BookList from "./_components/BookList";
 import SortDropdown from "./_components/SortDropdown";
 import { useBookStore } from "@/stores/useBookStore";
 import Navbar from "../_components/Navbar";
+import Spinner from "../_components/Spinner";
 
 type Book = {
   id: string;
@@ -44,8 +45,8 @@ const LibraryPage = () => {
 
   return (
     <>
-      <Navbar></Navbar>
-      <div className=" pb-14">
+      <Navbar />
+      <div className="pb-14">
         <div className="font-sans bg-linear-to-b from-indigo-100 via-purple-50 to-white min-h-screen flex flex-col w-full">
           <header className="sticky top-0 z-20 bg-white/90 backdrop-blur-xs border-b border-gray-200 px-4 pt-6 pb-2 flex flex-col gap-3 items-center w-full">
             <h1 className="text-2xl font-bold text-indigo-700 tracking-tight">
@@ -58,13 +59,10 @@ const LibraryPage = () => {
           </header>
           <main className="flex-1 px-2 py-4 w-full max-w-md mx-auto">
             {loading ? (
-              <div className="text-center text-gray-500 mt-14">
-                Loading books...
-              </div>
-            ) : (
+              <Spinner />
+            ) : filteredBooks.length > 0 ? (
               <BookList books={filteredBooks} />
-            )}
-            {!loading && filteredBooks.length === 0 && (
+            ) : (
               <div className="text-center text-gray-400 mt-14">
                 No books found.
               </div>

@@ -1,43 +1,43 @@
-'use client';
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
 import {
   Accordion,
   AccordionItem,
   AccordionTrigger,
   AccordionContent,
-} from '@/components/ui/accordion';
+} from "@/components/ui/accordion";
 import {
   Select,
   SelectTrigger,
   SelectContent,
   SelectItem,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 
 // Demo data: Array of chapter objects, each with a name and section list
 const CHAPTERS = [
   {
-    name: 'Chapter 1: Introduction',
-    sections: ['What is React?', 'Project Setup', 'JSX Overview'],
+    name: "Chapter 1: Introduction",
+    sections: ["What is React?", "Project Setup", "JSX Overview"],
   },
   {
-    name: 'Chapter 2: Components',
-    sections: ['Functional Components', 'Class Components', 'Props & State'],
+    name: "Chapter 2: Components",
+    sections: ["Functional Components", "Class Components", "Props & State"],
   },
   {
-    name: 'Chapter 3: Hooks',
-    sections: ['useState', 'useEffect', 'Custom Hooks'],
+    name: "Chapter 3: Hooks",
+    sections: ["useState", "useEffect", "Custom Hooks"],
   },
   {
-    name: 'Chapter 4: Routing',
-    sections: ['React Router Basics', 'Nested Routes', 'Navigation'],
+    name: "Chapter 4: Routing",
+    sections: ["React Router Basics", "Nested Routes", "Navigation"],
   },
 ];
 
 const MODES = [
-  { key: 'read', label: 'Read' },
-  { key: 'explain', label: 'Explain' },
-  { key: 'quiz', label: 'Quiz' },
+  { key: "read", label: "Read" },
+  { key: "explain", label: "Explain" },
+  { key: "quiz", label: "Quiz" },
 ];
 
 const ChapterList = () => {
