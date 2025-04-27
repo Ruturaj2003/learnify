@@ -1,3 +1,37 @@
+# Priority Features
+
+1. **Add General Loading Spinners**
+
+   - Show spinners during any data fetching or processing.
+
+2. **Improve Explanation Fetching Logic**
+
+   - When fetching an explanation, first clear the existing one.
+   - If the requested explanation is different, clear the old one, fetch the new one, and show a loading spinner until it's ready.
+
+3. **Complete Remaining Routes for Quiz Analysis**
+
+   - Add all missing API routes and frontend pages related to quiz performance analysis.
+
+4. **Update Quiz Completion Data**
+
+   - After a quiz is completed, update the user's quiz stats properly in the database.
+
+5. **Implement Book Deletion on Dashboard**
+
+   - Allow users to delete books from their dashboard view.
+
+6. **Add Book Stats in Dashboard**
+
+   - Track each time a book is accessed (store timestamps in an array).
+   - Display a graph showing access history.
+   - Track and display the average quiz performance for each book.
+   - Might need to update the database structure for this.
+
+7. **Update Book Upload Flow**
+   - While uploading a book, allow users to choose which page to start from (skip pages if needed).
+   - Update the Learnify Worker accordingly to handle this change.
+
 ## Use React Swipe for Using Gestures for changing pages and also for quiz
 
 ## Handle Markdown Data , right now only simple text is handled
