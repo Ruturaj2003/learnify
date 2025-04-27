@@ -6,13 +6,13 @@ import {
 import { NextResponse } from 'next/server';
 
 export default clerkMiddleware(async (auth, req) => {
-  // if (isProtectedRoute(req)) {
-  //   const { userId } = await auth();
-  //   if (!userId) {
-  //     const rootUrl = new URL('/', req.url);
-  //     return NextResponse.redirect(rootUrl);
-  //   }
-  // }
+  if (isProtectedRoute(req)) {
+    const { userId } = await auth();
+    if (!userId) {
+      const rootUrl = new URL('/', req.url);
+      return NextResponse.redirect(rootUrl);
+    }
+  }
 });
 const isProtectedRoute = createRouteMatcher([
   '/books(.*)',

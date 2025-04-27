@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="flex flex-col items-center justify-center gap-4 md:flex-row md:justify-between">
           <div className="flex items-center gap-2">
             <p className="text-sm text-gray-500">
-              © {new Date().getFullYear()} Learnify. All rights reserved.
+              © {new Date().getFullYear()} Dotaizz. All rights reserved.
             </p>
           </div>
           <div className="flex items-center gap-4">
