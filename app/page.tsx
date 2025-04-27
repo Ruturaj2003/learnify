@@ -1,8 +1,8 @@
-'use client';
-import axios from 'axios';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useUser, SignUpButton, SignInButton } from '@clerk/nextjs';
+"use client";
+import axios from "axios";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useUser, SignUpButton, SignInButton } from "@clerk/nextjs";
 const LandingPage = () => {
   const { isSignedIn, user } = useUser();
   const router = useRouter();
@@ -11,8 +11,8 @@ const LandingPage = () => {
     const registerUser = async () => {
       if (!user) return;
       try {
-        await axios.post('/api/user');
-        console.log('User Added to DB');
+        await axios.post("/api/user");
+        console.log("User Added to DB");
       } catch (err) {
         console.log(err);
       }
@@ -20,7 +20,7 @@ const LandingPage = () => {
 
     if (isSignedIn) {
       registerUser();
-      router.push('/dashboard'); // redirect to dashboard if logged in
+      router.push("/dashboard"); // redirect to dashboard if logged in
     }
   }, [isSignedIn, user, router]);
 
