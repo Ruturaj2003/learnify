@@ -1,9 +1,9 @@
-import { getGeminiModel } from "@/lib/genAI";
+import { getGeminiModel } from '@/lib/genAI';
 
 const model = getGeminiModel();
 
 // Type for allowed explanation types
-type ExplanationType = "simple" | "detailed";
+type ExplanationType = 'simple' | 'detailed';
 
 /**
  * Generates a simple or detailed explanation using Gemini AI.
@@ -17,19 +17,17 @@ export async function getChapterExplanation(
 ): Promise<string> {
   let prompt: string;
 
-  if (explanationType === "simple") {
+  if (explanationType === 'simple') {
     prompt = `
-You are a teacher explaining complex concepts to high school students. 
-Provide a simple and clear explanation for the following chapter text.
-Keep the explanation around 30% of the chapter's original length. 
-Focus on the key concepts and make it easy to understand:
+You are a teacher breaking down complex ideas for high school students. Offer a clear and straightforward explanation of the following chapter. Keep the explanation concise, around 30% of the original chapter length. Structure the explanation logically, focusing on the key points to ensure it's easy to understand.
+And Give in Markdown syntax only Please.
 
 Chapter Text:
 """
 ${chapterText}
 """
 `;
-  } else if (explanationType === "detailed") {
+  } else if (explanationType === 'detailed') {
     prompt = `
 You are a subject matter expert. 
 Provide a detailed and thorough explanation of the following chapter text. 
@@ -41,7 +39,9 @@ ${chapterText}
 """
 `;
   } else {
-    throw new Error("Invalid explanation type. Choose either 'simple' or 'detailed'.");
+    throw new Error(
+      "Invalid explanation type. Choose either 'simple' or 'detailed'."
+    );
   }
 
   try {
@@ -49,7 +49,7 @@ ${chapterText}
     const response = await result.response;
     return response.text();
   } catch (err) {
-    console.error("Error from Gemini:", err);
+    console.error('Error from Gemini:', err);
     return "Sorry, couldn't get an explanation.";
   }
 }

@@ -6,9 +6,10 @@ import { useInView } from 'react-intersection-observer';
 import { cn } from '@/lib/utils';
 import ViewModeToggle from './_components/ViewModeToggel';
 import { useRouter } from 'next/navigation';
+import { useExplanationStore } from '@/stores/useExplainationStore';
+import { useChapterStore } from '@/stores/useChapterStore';
 
 const Reader = () => {
-  const [currentChapter, setCurrentChapter] = useState(1);
   const [progress, setProgress] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -16,20 +17,26 @@ const Reader = () => {
     threshold: 0.1,
     triggerOnce: true,
   });
+  const { currentSubchapter } = useChapterStore();
+  const chapterId = currentSubchapter.subId; // Example chapterId; replace this as per your dynamic logic
 
-  const chapters = [
-    {
-      id: 1,
-      title: 'Chapter 1: The Beginning',
-      content: `In the depths of winter, I finally learned that within me there lay an invincible summer...`,
-    },
-    {
-      id: 2,
-      title: 'Chapter 2: The Discovery',
-      content: `The book's pages felt warm beneath her fingertips, almost alive with their own energy...`,
-    },
-  ];
+  const {
+    simpleExplanationHtml,
+    detailedExplanationHtml,
+    viewMode,
+    setViewMode,
+    fetchExplanations,
+  } = useExplanationStore();
 
+  console.log(viewMode);
+  console.log(currentSubchapter);
+
+  // Fetch explanations when the chapterId changes
+  useEffect(() => {
+    fetchExplanations(chapterId);
+  }, [chapterId, fetchExplanations]);
+
+  // Handle scroll for progress
   const handleScroll = () => {
     if (contentRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = contentRef.current;
@@ -37,6 +44,10 @@ const Reader = () => {
       setProgress(newProgress);
     }
   };
+
+  // Get the current explanation based on the viewMode
+  const currentExplanation =
+    viewMode === 'simple' ? simpleExplanationHtml : detailedExplanationHtml;
 
   return (
     <div>
@@ -58,11 +69,11 @@ const Reader = () => {
 
           {/* Chapter Name */}
           <h2 className="text-lg font-semibold text-purple-800 dark:text-purple-200">
-            {chapters[currentChapter - 1].title}
+            {`${currentSubchapter.subchapterName}`}
           </h2>
 
-          {/* Placeholder Button */}
-          <ViewModeToggle></ViewModeToggle>
+          {/* View Mode Toggle */}
+          <ViewModeToggle />
         </div>
 
         {/* Reading Content */}
@@ -70,7 +81,6 @@ const Reader = () => {
           ref={contentRef}
           className="w-full max-w-xl mx-auto px-6 py-16 md:px-8 lg:px-10"
         >
-          {/* Content box with fixed height of 85vh and scrolling */}
           <div
             ref={ref}
             className={cn(
@@ -79,20 +89,12 @@ const Reader = () => {
             )}
             onScroll={handleScroll}
           >
-            <h1 className="text-2xl font-semibold text-purple-800 dark:text-purple-200 mb-6">
-              {chapters[currentChapter - 1].title}
-            </h1>
-            <div className="prose dark:prose-invert max-w-none">
-              {chapters[currentChapter - 1].content
-                .split('\n\n')
-                .map((paragraph, index) => (
-                  <p
-                    key={index}
-                    className="mb-6 text-lg leading-relaxed font-literata text-gray-800 dark:text-gray-200"
-                  >
-                    {paragraph}
-                  </p>
-                ))}
+            <div className="prose pt-8 dark:prose-invert max-w-none">
+              {/* Explanation Content */}
+              <div
+                className="mb-6 text-lg leading-relaxed font-literata text-gray-800 dark:text-gray-200"
+                dangerouslySetInnerHTML={{ __html: currentExplanation }} // Render HTML content
+              />
             </div>
           </div>
         </div>
