@@ -29,10 +29,18 @@ ${chapterText}
 `;
   } else if (explanationType === 'detailed') {
     prompt = `
-You are a subject matter expert. 
-Provide a detailed and thorough explanation of the following chapter text. 
-The explanation should be about 45% of the original chapter's length, covering all essential details, examples, and context:
+You are a subject matter expert.
+Provide a comprehensive and detailed explanation of the following chapter text.
+The explanation should be approximately 45% of the original chapter’s length, covering all essential details, examples, and context.
+Present the explanation in a structured format using Markdown. The structure should include the following sections:
 
+Introduction: A brief overview of the topic.
+
+Key Concepts: Break down the main ideas and concepts in an easy-to-understand way.
+
+Examples: Provide relevant examples to illustrate the concepts.
+
+Summary: Recap the important points and highlight the main takeaways.
 Chapter Text:
 """
 ${chapterText}
