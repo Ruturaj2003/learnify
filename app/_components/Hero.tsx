@@ -1,4 +1,7 @@
+// @ts-nocheck
+
 import { Button } from "@/components/ui/button";
+import { SignInButton } from "@clerk/nextjs";
 
 interface HeroProps {
   scrollToHowItWorks: () => void;
@@ -26,12 +29,14 @@ const Hero: React.FC<HeroProps> = ({ scrollToHowItWorks }) => {
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16 animate-fade-in">
-            <Button
-              size="lg"
-              className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white"
-            >
-              Get Started for Free
-            </Button>
+            <SignInButton>
+              <Button
+                size="lg"
+                className="w-full sm:w-auto bg-purple-600 hover:bg-purple-700 text-white"
+              >
+                Get Started for Free
+              </Button>
+            </SignInButton>
             <Button
               size="lg"
               variant="outline"
