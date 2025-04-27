@@ -7,7 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { motion } from 'framer-motion';
-import { Upload, Check, X, ArrowLeft } from 'lucide-react';
+import { Upload, Check, X, ArrowLeft, Ghost } from 'lucide-react';
 import { toast } from 'sonner';
 import { UploadButton } from './_components/uploadthing';
 import { useRouter } from 'next/navigation';
@@ -69,7 +69,7 @@ const UploadBookPage = () => {
     <>
       <div className="min-h-screen bg-gray-50 flex flex-col">
         {/* Navbar */}
-        <div className="flex items-center p-4 bg-violet-600 text-white shadow-md">
+        <div className="flex items-center p-4 bg-purple-600 text-white shadow-md">
           <button onClick={() => router.back()} className="flex items-center">
             <ArrowLeft className="w-5 h-5 mr-2" />
             <span className="font-semibold">Back</span>
@@ -177,8 +177,9 @@ const UploadBookPage = () => {
                 </div>
 
                 <Button
+                  variant={'outline'}
                   onClick={handleUpload}
-                  className="w-full bg-violet-600 hover:bg-violet-700 text-white py-2 rounded-xl transition"
+                  className="w-full hover:bg-purple-200 text-black py-2 rounded-xl transition"
                 >
                   Upload Book
                 </Button>
