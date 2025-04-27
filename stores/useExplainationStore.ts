@@ -1,3 +1,5 @@
+"use-client";
+
 // store.ts
 import { create } from 'zustand';
 import axios from 'axios';

@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
 const Hero = () => {
   return (
@@ -11,7 +11,7 @@ const Hero = () => {
 
         <div className="max-w-5xl mx-auto text-center relative z-20">
           <h1 className="text-3xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight text-gray-900 animate-fade-in">
-            Transform Your Learning with{' '}
+            Transform Your Learning with{" "}
             <span className="text-purple-600">AI-Powered Knowledge</span>
           </h1>
 

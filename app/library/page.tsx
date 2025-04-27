@@ -1,11 +1,11 @@
-'use client';
-import { useMemo, useState, useEffect } from 'react';
-import BottomNavBar from '../_components/BottomNavBar';
-import SearchBar from './_components/SearchBar';
-import BookList from './_components/BookList';
-import SortDropdown from './_components/SortDropdown';
-import { useBookStore } from '@/stores/useBookStore';
-import Navbar from '../_components/Navbar';
+"use client";
+import { useMemo, useState, useEffect } from "react";
+import BottomNavBar from "../_components/BottomNavBar";
+import SearchBar from "./_components/SearchBar";
+import BookList from "./_components/BookList";
+import SortDropdown from "./_components/SortDropdown";
+import { useBookStore } from "@/stores/useBookStore";
+import Navbar from "../_components/Navbar";
 
 type Book = {
   id: string;
@@ -22,9 +22,9 @@ const sortFunctions: Record<string, (a: Book, b: Book) => number> = {
 };
 
 const LibraryPage = () => {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [sortKey, setSortKey] =
-    useState<keyof typeof sortFunctions>('title_asc');
+    useState<keyof typeof sortFunctions>("title_asc");
 
   const { books, loading, fetchBooks } = useBookStore();
 
