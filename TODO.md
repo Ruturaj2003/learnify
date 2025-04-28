@@ -1,8 +1,6 @@
 # Priority Features
 
-## PDF Buffer in model right now is not set as reuired , later do it ok
-
-<!-- Dummy COnete -->
+## PDF Buffer in model right now is not set
 
 1. **Add General Loading Spinners**
 
