@@ -33,7 +33,9 @@ const BookCard = ({ book }: { book: Book }) => {
     };
   }, []);
 
-  const formattedDate = format(new Date(book.createdAt), 'MMMM dd, yyyy');
+  const formattedDate = book.createdAt
+    ? format(new Date(book.createdAt), 'MMMM dd, yyyy')
+    : 'Date not available';
 
   return (
     <div
