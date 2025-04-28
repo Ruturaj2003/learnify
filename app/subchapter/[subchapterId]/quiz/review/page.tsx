@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useQuizStore } from '@/stores/useQuizStore';
 import { Home, ArrowLeft, ArrowRight } from 'lucide-react';
-useRouter;
+
 import QuizOption from '../_components/QuizOption';
 import { useRouter } from 'next/navigation';
 

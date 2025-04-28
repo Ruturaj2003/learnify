@@ -1,6 +1,6 @@
 'use client';
 
-import { BookOpen, Upload, Library, LayoutDashboard } from 'lucide-react';
+import { Upload, Library, LayoutDashboard } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 

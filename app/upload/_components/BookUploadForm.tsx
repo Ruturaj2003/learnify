@@ -5,14 +5,10 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-// import FileUploadField from './FileUploadField';
-// import FormHeader from './FormHeader';
-// Made it a local file
 
 import {
   validateBookName,
   validateDescription,
-  validateFile,
   ValidationResult,
 } from './validation';
 import FileUploadField from './FileUploadField';
@@ -46,7 +42,7 @@ const BookUploadForm: React.FC = () => {
 
   const validate = (
     field: keyof FormFields,
-    value: any
+    value: string | File | null
   ): string | undefined => {
     let result: ValidationResult = { isValid: true };
 
@@ -56,10 +52,6 @@ const BookUploadForm: React.FC = () => {
         break;
       case 'description':
         result = validateDescription(value as string);
-        break;
-
-      case 'file':
-        result = validateFile(value as File);
         break;
     }
 
@@ -145,8 +137,16 @@ const BookUploadForm: React.FC = () => {
       });
       setErrors({});
       setTouched({});
-    } catch (error) {
-      toast.error('There was a problem uploading your book. Please try again.');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(
+          `There was a problem uploading your book. ${error.message}`
+        );
+      } else {
+        toast.error(
+          'There was a problem uploading your book. Please try again.'
+        );
+      }
     } finally {
       setIsSubmitting(false);
     }

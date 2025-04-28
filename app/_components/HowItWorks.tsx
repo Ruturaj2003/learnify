@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Image from 'next/image';
 
 const steps = [
   {
@@ -89,9 +89,11 @@ const HowItWorks = () => {
 
                   <div className="order-1 lg:order-2 relative aspect-video rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
                     <div className="absolute inset-0 bg-gradient-to-br from-purple-100 via-transparent to-purple-300 opacity-40 mix-blend-overlay animate-float" />
-                    <img
+                    <Image
                       src={step.image}
                       alt={step.title}
+                      layout="fill"
+                      objectFit="cover"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>

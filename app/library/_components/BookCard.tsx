@@ -1,23 +1,21 @@
-// @ts-nocheck
+'use client';
 
-"use client";
-
-import { useRouter } from "next/navigation";
-import { Book } from "./BookList";
-import { useMemo } from "react";
-import { BookOpen } from "lucide-react"; // Using a clean, modern book icon
-import { format } from "date-fns"; // Optional: Install date-fns for formatting
+import { useRouter } from 'next/navigation';
+import { Book } from './BookList';
+import { useMemo } from 'react';
+import { BookOpen } from 'lucide-react'; // Using a clean, modern book icon
+import { format } from 'date-fns'; // Optional: Install date-fns for formatting
 
 const colorClasses = [
-  "bg-red-100 text-red-700",
-  "bg-green-100 text-green-700",
-  "bg-blue-100 text-blue-700",
-  "bg-yellow-100 text-yellow-700",
-  "bg-purple-100 text-purple-700",
-  "bg-pink-100 text-pink-700",
-  "bg-indigo-100 text-indigo-700",
-  "bg-orange-100 text-orange-700",
-  "bg-teal-100 text-teal-700",
+  'bg-red-100 text-red-700',
+  'bg-green-100 text-green-700',
+  'bg-blue-100 text-blue-700',
+  'bg-yellow-100 text-yellow-700',
+  'bg-purple-100 text-purple-700',
+  'bg-pink-100 text-pink-700',
+  'bg-indigo-100 text-indigo-700',
+  'bg-orange-100 text-orange-700',
+  'bg-teal-100 text-teal-700',
 ];
 
 const BookCard = ({ book }: { book: Book }) => {
@@ -35,7 +33,7 @@ const BookCard = ({ book }: { book: Book }) => {
     };
   }, []);
 
-  const formattedDate = format(new Date(book.createdAt), "MMMM dd, yyyy");
+  const formattedDate = format(new Date(book.createdAt), 'MMMM dd, yyyy');
 
   return (
     <div

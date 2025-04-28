@@ -110,8 +110,8 @@ const BookItem = ({ book, onDelete }: BookItemProps) => {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will remove "{book.title}" from your list. This action cannot
-              be undone.
+              This will remove &quot;{book.title}&quot; from your list. This
+              action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

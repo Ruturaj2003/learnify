@@ -1,17 +1,8 @@
 'use client';
-import { Avatar } from '@/components/ui/avatar';
-import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { useIsMobile } from './use-mobile';
+
 import { UserButton, useUser } from '@clerk/nextjs';
 
-type HeaderProps = {
-  name: string;
-  avatarUrl?: string;
-};
-
-const Header = ({ name, avatarUrl }: HeaderProps) => {
-  const isMobile = useIsMobile();
-
+const Header = () => {
   const { user } = useUser();
   return (
     <header className="flex justify-between items-center mb-6 w-full">
@@ -27,12 +18,7 @@ const Header = ({ name, avatarUrl }: HeaderProps) => {
           })}
         </p>
       </div>
-      {/* <Avatar className="h-10 w-10 border-2 border-primary transition-all">
-        <AvatarImage src={avatarUrl} alt={name} />
-        <AvatarFallback className="bg-primary/10 text-primary">
-          {firstName.charAt(0)}
-        </AvatarFallback>
-      </Avatar> */}
+
       <UserButton
         appearance={{
           elements: {

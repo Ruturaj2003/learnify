@@ -1,9 +1,7 @@
-// @ts-nocheck
 
-import { Button } from '@/components/ui/button';
 import React from 'react';
 import Link from 'next/link';
-import { SignInButton, UserButton } from '@clerk/nextjs';
+import {  UserButton } from '@clerk/nextjs';
 
 const Navbar = () => {
   return (

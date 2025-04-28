@@ -1,9 +1,9 @@
 import { connectToDB } from '@/lib/mongodb';
 import User from '@/models/User';
 import { auth, currentUser } from '@clerk/nextjs/server';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
-export async function POST(req: NextRequest) {
+export async function POST() {
   try {
     await connectToDB();
 

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, Heading1 } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useInView } from 'react-intersection-observer';
 import { cn } from '@/lib/utils';
@@ -13,8 +13,8 @@ import Spinner from '../../../_components/Spinner'; // <-- Added Spinner import
 
 const Reader = () => {
   const [progress, setProgress] = useState(0);
-  const [loading, setLoading] = useState(true); // <-- Added loading state
-  const [countdown, setCountdown] = useState(50);
+  // <-- Added loading state
+
   const contentRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { ref, inView } = useInView({
@@ -28,7 +28,7 @@ const Reader = () => {
     simpleExplanationHtml,
     detailedExplanationHtml,
     viewMode,
-    setViewMode,
+
     fetchExplanations,
     loadingExplaination,
   } = useExplanationStore();
@@ -36,9 +36,9 @@ const Reader = () => {
   // Fetch explanations when the chapterId changes
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true); // Start loading
+      // Start loading
       await fetchExplanations(chapterId);
-      setLoading(false); // Stop loading after fetching
+      // Stop loading after fetching
     };
 
     fetchData();

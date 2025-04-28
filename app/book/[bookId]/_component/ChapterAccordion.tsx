@@ -1,13 +1,9 @@
 'use client';
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import Link from 'next/link';
+
 import { useChapterStore } from '@/stores/useChapterStore';
 import { useRouter } from 'next/navigation';
-
-interface ChapterAccordionProps {
-  chapters: Chapter[];
-}
 
 export type SubChapter = {
   title: string;
@@ -30,8 +26,7 @@ export default function ChapterAccordion() {
     return <p className="text-center text-gray-500">No chapters found.</p>;
   }
 
-  // @ts-ignore
-  function handleClick(id, name) {
+  function handleClick(id: string, name: string) {
     setCurrentSubchapter(id, name);
     router.push(`/subchapter/${id}
                         /${mode}`);

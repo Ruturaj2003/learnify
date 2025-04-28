@@ -21,10 +21,10 @@ export async function GET() {
     // Fetch only books that belong to the authenticated user
     const books = await Book.find(
       { userId: user._id },
-      { title: 1, description: 1, category: 1, createdAt : 1 }
+      { title: 1, description: 1, category: 1, createdAt: 1 }
     ).lean();
 
-    const formattedBooks = books.map((book, index) => ({
+    const formattedBooks = books.map((book) => ({
       id: book._id, // synthetic ID (or use book._id.toString() if needed)
       title: book.title,
       description: book.description,

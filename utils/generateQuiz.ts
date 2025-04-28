@@ -1,4 +1,4 @@
-import { getGeminiModel } from "@/lib/genAI";
+import { getGeminiModel } from '@/lib/genAI';
 
 const model = getGeminiModel();
 
@@ -47,7 +47,7 @@ ${chapterText}
     const response = await result.response;
     return response.text();
   } catch (err) {
-    console.error("Error generating quiz:", err);
-    return "Error generating quiz.";
+    console.error('Error generating quiz:', err);
+    return 'Error generating quiz.';
   }
 }

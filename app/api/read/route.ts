@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { NextResponse } from 'next/server';
 
 import SubChapter from '@/models/SubChapter'; // Your Mongoose SubChapter model

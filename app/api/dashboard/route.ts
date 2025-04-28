@@ -1,4 +1,3 @@
-//@ts-nocheck
 import Book from '@/models/Book';
 import Chapter from '@/models/Chapter';
 import SubChapters from '@/models/SubChapter';
@@ -6,7 +5,15 @@ import { NextResponse } from 'next/server';
 import { auth } from '@clerk/nextjs/server';
 import { connectToDB } from '@/lib/mongodb';
 import User from '@/models/User';
-
+interface FormattedBook {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  progress: number;
+  knowledgeScore: number;
+  lastAccessed: Date;
+}
 export async function GET() {
   try {
     const { userId } = await auth();
@@ -26,7 +33,7 @@ export async function GET() {
       .sort({ lastAccessed: -1 }); // Sorting by most recently accessed, can adjust as needed
 
     // Fetch chapters and subchapters for each book and calculate progress/knowledgeScore
-    const formattedBooks = await Promise.all(
+    const formattedBooks: FormattedBook[] = await Promise.all(
       books.map(async (book) => {
         // Fetch chapters for each book
         const chapters = await Chapter.find({ book: book._id });
@@ -37,7 +44,7 @@ export async function GET() {
         let totalKnowledgeScore = 0;
 
         // Iterate over each chapter to fetch related subchapters and calculate progress and knowledge score
-        for (let chapter of chapters) {
+        for (const chapter of chapters) {
           const subChapters = await SubChapters.find({ chapter: chapter._id });
 
           // Count total subchapters and completed subchapters
@@ -77,12 +84,22 @@ export async function GET() {
 
     // Return the formatted books data
     return new Response(JSON.stringify(formattedBooks), { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return new Response(
+        JSON.stringify({
+          message: 'Error fetching books',
+          error: error.message, // TypeScript now knows error is an instance of Error
+        }),
+        { status: 500 }
+      );
+    }
+
+    // Fallback if error is not an instance of Error
     return new Response(
       JSON.stringify({
         message: 'Error fetching books',
-
-        error: error.message,
+        error: 'An unknown error occurred', // Handle unknown errors
       }),
       { status: 500 }
     );

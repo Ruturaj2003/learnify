@@ -1,25 +1,24 @@
-"use client";
+'use client';
 
-import { useEffect } from "react";
-import BottomNavBar from "@/app/_components/BottomNavBar";
-import ModeSelector from "./_component/ModeSelector";
-import ChapterAccordion from "./_component/ChapterAccordion";
-import { useChapterStore } from "@/stores/useChapterStore";
-import { useParams } from "next/navigation";
-import Spinner from "../../_components/Spinner"; // Import Spinner component
+import { useEffect } from 'react';
+import BottomNavBar from '@/app/_components/BottomNavBar';
+import ModeSelector from './_component/ModeSelector';
+import ChapterAccordion from './_component/ChapterAccordion';
+import { useChapterStore } from '@/stores/useChapterStore';
+import { useParams } from 'next/navigation';
+import Spinner from '../../_components/Spinner'; // Import Spinner component
 
 const ChapterListPage = () => {
   const params = useParams();
   const bookId = params?.bookId as string; // safer casting
 
-  const { chapters, mode, setMode, fetchChapters, loading, error } =
-    useChapterStore();
+  const { mode, setMode, fetchChapters, loading, error } = useChapterStore();
 
   useEffect(() => {
     if (bookId) {
       fetchChapters(bookId);
     }
-  }, [fetchChapters]);
+  }, [fetchChapters, bookId]);
 
   return (
     <>

@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import mongoose from 'mongoose';
-// import Chapters from '@/models/Chapters'; // adjust the import path
-// import SubChapters from '@/models/SubChapters'; // assuming you have SubChapters model
-// your mongoose connect utility
+
+
 import { connectToDB } from '@/lib/mongodb';
 import SubChapters from '@/models/SubChapter';
 import Chapters from '@/models/Chapter';

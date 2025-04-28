@@ -7,7 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { motion } from 'framer-motion';
-import { Upload, Check, X, ArrowLeft, Ghost } from 'lucide-react';
+import { Upload, Check, X, ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
 import { UploadButton } from './_components/uploadthing';
 import { useRouter } from 'next/navigation';
@@ -51,12 +51,29 @@ const UploadBookPage = () => {
 
       toast.success('Book Uploaded Successfully!', { position: 'top-center' });
       router.push('/library');
-    } catch (err) {
-      const error = err as any;
-      toast.error(
-        'Error Saving Book ' + (error.response?.data?.error || error.message),
-        { position: 'top-center' }
-      );
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        // Standard error object (Error class)
+        toast.error('Error Saving Book ' + (err.message || 'Unknown error'), {
+          position: 'top-center',
+        });
+      } else if (err && typeof err === 'object') {
+        // Checking for custom error structure with response and data
+        const customError = err as ErrorResponse;
+        if (customError.response?.data?.error) {
+          toast.error('Error Saving Book ' + customError.response.data.error, {
+            position: 'top-center',
+          });
+        } else {
+          toast.error('Error Saving Book Unknown error', {
+            position: 'top-center',
+          });
+        }
+      } else {
+        toast.error('Error Saving Book Unknown error', {
+          position: 'top-center',
+        });
+      }
     }
   };
 
@@ -214,3 +231,10 @@ const UploadBookPage = () => {
 };
 
 export default UploadBookPage;
+interface ErrorResponse {
+  response?: {
+    data: {
+      error?: string;
+    };
+  };
+}

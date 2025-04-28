@@ -3,9 +3,6 @@
 import React, { useState } from 'react';
 import { Upload, Check, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
-// Adjust path if needed
-import { toast } from 'sonner';
-import { UploadButton } from '@uploadthing/react';
 
 interface FileUploadFieldProps {
   onChange: (file: File | null) => void;
@@ -18,22 +15,6 @@ const FileUploadField: React.FC<FileUploadFieldProps> = ({
 }) => {
   const [fileName, setFileName] = useState<string | null>(null);
   const [fileSize, setFileSize] = useState<number | null>(null);
-
-  const handleUploadComplete = (res: { name: string; size: number }[]) => {
-    if (res && res.length > 0) {
-      const uploaded = res[0];
-      setFileName(uploaded.name);
-      setFileSize(uploaded.size);
-      toast.success('File uploaded!');
-      onChange(new File([], uploaded.name)); // Placeholder File object
-    }
-  };
-
-  const handleUploadError = (error: Error) => {
-    console.error(error);
-    toast.error('Failed to upload file');
-    onChange(null);
-  };
 
   const removeFile = () => {
     setFileName(null);
