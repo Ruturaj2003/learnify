@@ -13,6 +13,7 @@ interface ExplanationState {
   detailedExplanationHtml: string;
   viewMode: ViewMode;
   currentSubChapterId: string | null; // Keep track of the currently fetched subChapterId
+  loadingExplaination: boolean;
   setViewMode: (mode: ViewMode) => void;
   fetchExplanations: (subChapterId: string) => Promise<void>;
 }
@@ -23,12 +24,17 @@ export const useExplanationStore = create<ExplanationState>((set, get) => ({
   simpleExplanationHtml: '',
   detailedExplanationHtml: '',
   viewMode: 'simple', // default is simple
+  loadingExplaination: false,
+
   currentSubChapterId: null, // Initialize as null since no subChapter is fetched initially
   setViewMode: (mode) => set({ viewMode: mode }),
+
   fetchExplanations: async (subChapterId) => {
     try {
       // Access the current store state using `get()`
       const { currentSubChapterId } = get();
+
+      // Set loading state to true before starting the fetch
 
       // Check if the subChapterId is the same as the current one
       if (currentSubChapterId === subChapterId) {
@@ -37,6 +43,8 @@ export const useExplanationStore = create<ExplanationState>((set, get) => ({
         );
         return; // Skip fetching if the subChapterId is the same
       }
+
+      set({ loadingExplaination: true });
 
       // Clear previous explanations if the subChapterId is different
       set({
@@ -73,6 +81,7 @@ export const useExplanationStore = create<ExplanationState>((set, get) => ({
         simpleExplanationHtml: simpleHtml,
         detailedExplanationHtml: detailedHtml,
       });
+      set({ loadingExplaination: false });
     } catch (error) {
       console.error('Failed to fetch explanations:', error);
     }

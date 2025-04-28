@@ -1,19 +1,20 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect, useRef } from "react";
-import { ChevronLeft } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useInView } from "react-intersection-observer";
-import { cn } from "@/lib/utils";
-import ViewModeToggle from "./_components/ViewModeToggel";
-import { useRouter } from "next/navigation";
-import { useExplanationStore } from "@/stores/useExplainationStore";
-import { useChapterStore } from "@/stores/useChapterStore";
-import Spinner from "../../../_components/Spinner"; // <-- Added Spinner import
+import React, { useState, useEffect, useRef } from 'react';
+import { ChevronLeft, Heading1 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useInView } from 'react-intersection-observer';
+import { cn } from '@/lib/utils';
+import ViewModeToggle from './_components/ViewModeToggel';
+import { useRouter } from 'next/navigation';
+import { useExplanationStore } from '@/stores/useExplainationStore';
+import { useChapterStore } from '@/stores/useChapterStore';
+import Spinner from '../../../_components/Spinner'; // <-- Added Spinner import
 
 const Reader = () => {
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(true); // <-- Added loading state
+  const [countdown, setCountdown] = useState(50);
   const contentRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { ref, inView } = useInView({
@@ -29,6 +30,7 @@ const Reader = () => {
     viewMode,
     setViewMode,
     fetchExplanations,
+    loadingExplaination,
   } = useExplanationStore();
 
   // Fetch explanations when the chapterId changes
@@ -53,7 +55,7 @@ const Reader = () => {
 
   // Get the current explanation based on the viewMode
   const currentExplanation =
-    viewMode === "simple" ? simpleExplanationHtml : detailedExplanationHtml;
+    viewMode === 'simple' ? simpleExplanationHtml : detailedExplanationHtml;
 
   return (
     <div>
@@ -87,7 +89,7 @@ const Reader = () => {
           ref={contentRef}
           className="w-full max-w-xl mx-auto px-6 py-16 md:px-8 lg:px-10"
         >
-          {loading ? (
+          {loadingExplaination ? (
             // Spinner while loading
             <div className="flex justify-center items-center h-[80vh]">
               <Spinner />
@@ -96,13 +98,14 @@ const Reader = () => {
             <div
               ref={ref}
               className={cn(
-                "bg-white/80 dark:bg-gray-900/80 rounded-xl p-6 shadow-lg transition-opacity duration-500 h-[85vh] overflow-y-auto",
-                inView ? "opacity-100" : "opacity-0"
+                'bg-white/80 dark:bg-gray-900/80 rounded-xl p-6 shadow-lg transition-opacity duration-500 h-[85vh] overflow-y-auto',
+                inView ? 'opacity-100' : 'opacity-0'
               )}
               onScroll={handleScroll}
             >
               <div className="prose pt-8 dark:prose-invert max-w-none">
                 {/* Explanation Content */}
+
                 <div
                   className="mb-6 text-lg leading-relaxed font-literata text-gray-800 dark:text-gray-200"
                   dangerouslySetInnerHTML={{ __html: currentExplanation }}
