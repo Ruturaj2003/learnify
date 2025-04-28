@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import SubChapter from '@/models/SubChapter'; // Your Mongoose SubChapter model
 import { connectToDB } from '@/lib/mongodb';
 
-export async function POST(request) {
+export async function POST(request: Request) {
   const { subChapterId } = await request.json(); // Get the ID from the request body
 
   if (!subChapterId) {
