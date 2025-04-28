@@ -5,7 +5,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
-    "noEmit": true,
+    "noEmit": false, // Set to false so TypeScript compiles files and emits output.
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -20,7 +20,11 @@
     ],
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "experimentalDecorators": true, // Optional, if using decorators in your project
+    "skipDefaultLibCheck": true, // Optional, for skipping lib checks if you want
+    "noUnusedLocals": false, // Optional, disables checking unused locals
+    "noUnusedParameters": false // Optional, disables checking unused parameters
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
