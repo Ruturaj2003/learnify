@@ -33,7 +33,13 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
-    console.error('[API ERROR]', error.message);
+    // Type check to ensure error is an instance of Error
+    if (error instanceof Error) {
+      console.error('[API ERROR]', error.message);
+    } else {
+      console.error('[API ERROR]', 'Unknown error');
+    }
+
     return NextResponse.json({ message: 'Server error' }, { status: 500 });
   }
 }
