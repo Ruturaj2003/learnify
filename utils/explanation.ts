@@ -19,33 +19,47 @@ export async function getChapterExplanation(
 
   if (explanationType === 'simple') {
     prompt = `
-You are a teacher breaking down complex ideas for high school students. Offer a clear and straightforward explanation of the following chapter. Keep the explanation concise, around 30% of the original chapter length. Structure the explanation logically, focusing on the key points to ensure it's easy to understand.
-And Give in Markdown syntax only Please.
+You are a helpful , intelligent teacher guiding high school students.
+
+Your task is to explain the following chapter content in a simple, clear, and short way. 
+- Use easy-to-understand language.
+- Keep it concise — about 45% of the original chapter length.
+- Focus only on the main points.
+- Organize the explanation logically.
+- Format the response using Markdown syntax only.
 
 Chapter Text:
 """
 ${chapterText}
 """
-`;
+    `.trim();
   } else if (explanationType === 'detailed') {
     prompt = `
-You are a subject matter expert.
-Provide a comprehensive and detailed explanation of the following chapter text.
-The explanation should be approximately 45% of the original chapter’s length, covering all essential details, examples, and context.
-Present the explanation in a structured format using Markdown. The structure should include the following sections:
+You are a subject matter expert creating a detailed explanation for high school students.
 
-Introduction: A brief overview of the topic.
+Your task is to explain the following chapter content thoroughly but clearly.
+- Length should be around 65% of the original chapter.
+- Cover all important ideas, give examples, and explain the context.
+- Use easy and clear language suitable for high school learners.
+- Format your answer using Markdown with the following structure:
 
-Key Concepts: Break down the main ideas and concepts in an easy-to-understand way.
+Introduction
+Brief overview of the topic.
 
-Examples: Provide relevant examples to illustrate the concepts.
+Key Concepts
+Main ideas explained in a simple way.
 
-Summary: Recap the important points and highlight the main takeaways.
+Examples
+Short examples to support each key concept.
+
+Summary
+Highlight the most important takeaways.
+
 Chapter Text:
 """
 ${chapterText}
 """
-`;
+    `.trim();
   } else {
     throw new Error(
       "Invalid explanation type. Choose either 'simple' or 'detailed'."

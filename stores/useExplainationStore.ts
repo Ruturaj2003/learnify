@@ -3,9 +3,14 @@
 // store.ts
 import { create } from 'zustand';
 import axios from 'axios';
-import { marked } from 'marked';
+import markdownit from 'markdown-it';
 type ViewMode = 'simple' | 'detailed';
 
+const md = new markdownit({
+  html: true,
+  linkify: true,
+  typographer: true,
+});
 interface ExplanationState {
   simpleExplanation: string;
   detailedExplanation: string;
@@ -62,7 +67,7 @@ export const useExplanationStore = create<ExplanationState>((set, get) => ({
       });
 
       // Wait for 32 seconds before fetching the detailed explanation
-      await new Promise((resolve) => setTimeout(resolve, 32000)); // 32 seconds delay
+      // 32 seconds delay
 
       // Fetch the detailed explanation after the delay
       const detailedRes = await axios.post('/api/explanation', {
@@ -71,8 +76,8 @@ export const useExplanationStore = create<ExplanationState>((set, get) => ({
       });
 
       // Convert both explanations to HTML using marked
-      const simpleHtml = await marked(simpleRes.data.explanation);
-      const detailedHtml = await marked(detailedRes.data.explanation);
+      const simpleHtml = await md.render(simpleRes.data.explanation);
+      const detailedHtml = await md.render(detailedRes.data.explanation);
 
       // Set the state with the fetched explanations
       set({
