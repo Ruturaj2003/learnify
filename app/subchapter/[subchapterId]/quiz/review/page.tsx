@@ -13,6 +13,8 @@ const QuizReviewPage = () => {
   const navigate = useRouter();
   const { questions, answers, isQuizComplete, resetQuiz } = useQuizStore();
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
+  const { reviewData } = useQuizStore();
+  console.log(reviewData);
 
   useEffect(() => {
     if (!isQuizComplete) {

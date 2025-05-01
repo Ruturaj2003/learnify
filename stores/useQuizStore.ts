@@ -20,10 +20,18 @@ export type QuizAnswer = {
   selectedOptionId: string;
 };
 
+type ReviewData = {
+  questionId: string;
+  options: QuizOption[];
+  correctAnswer: string;
+  userAnswer: string;
+};
+
 type QuizStore = {
   questions: QuizQuestion[];
   currentQuestionIndex: number;
   answers: QuizAnswer[];
+  reviewData: ReviewData[];
   score: number;
   isQuizComplete: boolean;
   loading: boolean;
@@ -45,6 +53,7 @@ export const useQuizStore = create<QuizStore>((set, get) => ({
   questions: [],
   currentQuestionIndex: -1,
   answers: [],
+  reviewData: [],
   score: 0,
   isQuizComplete: false,
   loading: false,
@@ -113,9 +122,35 @@ export const useQuizStore = create<QuizStore>((set, get) => ({
 
   finishQuiz: () => {
     const score = get().calculateScore();
+    get().generateReviewDataArray();
     set({ score, isQuizComplete: true });
   },
+  generateReviewDataArray: () => {
+    const state = get();
 
+    const reviewDataArray = state.questions.map((question) => {
+      const userAnswer = state.answers.find(
+        (ans) => ans.questionId === question.id
+      );
+
+      const correctOption = question.options.find(
+        (opt) => opt.id === question.correctOptionId
+      );
+
+      const selectedOption = question.options.find(
+        (opt) => opt.id === userAnswer?.selectedOptionId
+      );
+
+      return {
+        questionId: question.id,
+        options: question.options,
+        correctAnswer: correctOption?.text || 'N/A',
+        userAnswer: selectedOption?.text || 'Not Answered',
+      };
+    });
+
+    set({ reviewData: reviewDataArray });
+  },
   resetQuiz: () =>
     set({
       currentQuestionIndex: -1,
