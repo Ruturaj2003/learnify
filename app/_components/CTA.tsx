@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { SignInButton } from '@clerk/nextjs';
 
 const CTA = () => {
   return (
@@ -14,19 +15,14 @@ const CTA = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button
-              size="lg"
-              className="bg-purple-600 text-white hover:bg-purple-700 transition-all duration-300"
-            >
-              Get Started for Free
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-purple-600 text-purple-600 hover:bg-purple-50 transition-all duration-300"
-            >
-              Schedule a Demo
-            </Button>
+            <SignInButton>
+              <Button
+                size="lg"
+                className="bg-purple-600 text-white hover:bg-purple-700 transition-all duration-300"
+              >
+                Get Started for Free
+              </Button>
+            </SignInButton>
           </div>
         </div>
       </div>

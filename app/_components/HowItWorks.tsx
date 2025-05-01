@@ -79,12 +79,6 @@ const HowItWorks = () => {
                     <p className="text-gray-600 mb-6 text-sm md:text-base">
                       {step.description}
                     </p>
-                    <Button
-                      size="lg"
-                      className="w-full sm:w-auto bg-purple-600 text-white hover:bg-purple-700"
-                    >
-                      Learn More
-                    </Button>
                   </div>
 
                   <div className="order-1 lg:order-2 relative aspect-video rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300">
@@ -92,8 +86,7 @@ const HowItWorks = () => {
                     <Image
                       src={step.image}
                       alt={step.title}
-                      layout="fill"
-                      objectFit="cover"
+                      fill
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
