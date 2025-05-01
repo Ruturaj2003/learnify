@@ -31,10 +31,16 @@ Format output as a JSON array like this:
 
 [
   {
-    "question": "What is ...?",
-    "options": ["Option A", "Option B", "Option C", "Option D"],
-    "answer": "Correct option"
-  }
+    "id": "qX",
+    "question": "What is ...",
+    "options": [
+      { "id": "qX_a", "text": "..." },
+      { "id": "qX_b", "text": "..." },
+      { "id": "qX_c", "text": ".." },
+      { "id": "qX_d", "text": "..." }
+    ],
+    "correctOptionId": "qX_b"
+  },
 ]
 
 Chapter Text:

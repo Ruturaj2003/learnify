@@ -40,30 +40,6 @@ type QuizStore = {
   ) => 'correct' | 'incorrect' | 'unanswered';
 };
 
-// --- Helper Function ---
-function transformQuizData(serverData: any): QuizQuestion[] {
-  return serverData.quiz.map((item: any, index: number) => {
-    const questionId = `q${index}`;
-    const optionIds = ['a', 'b', 'c', 'd'];
-
-    const options = item.options.map(
-      (optionText: string, optionIndex: number) => ({
-        id: `${questionId}_${optionIds[optionIndex]}`,
-        text: optionText,
-      })
-    );
-
-    const correctOption = options.find((opt) => opt.text === item.answer);
-
-    return {
-      id: questionId,
-      question: item.question,
-      options: options,
-      correctOptionId: correctOption ? correctOption.id : '',
-    };
-  });
-}
-
 // --- Store ---
 export const useQuizStore = create<QuizStore>((set, get) => ({
   questions: [],
@@ -82,11 +58,8 @@ export const useQuizStore = create<QuizStore>((set, get) => ({
       const response = await axios.post('/api/quiz', { subChapterId });
       console.log(response.data);
 
-      const formattedQuiz = transformQuizData(response.data);
-      console.log(formattedQuiz);
-
       set({
-        questions: formattedQuiz,
+        questions: response.data.quiz,
         currentQuestionIndex: 0,
         answers: [],
         score: 0,
