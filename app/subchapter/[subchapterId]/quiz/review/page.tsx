@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
-
+import axios from 'axios';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useQuizStore } from '@/stores/useQuizStore';
@@ -9,22 +9,41 @@ import { Home, ArrowLeft, ArrowRight } from 'lucide-react';
 import QuizOption from '../_components/QuizOption';
 import { useRouter } from 'next/navigation';
 
+type ReviewResponse = {
+  questionId: string;
+  question: string;
+  userAnswer: string;
+  explanation: string;
+};
+
 const QuizReviewPage = () => {
-  const navigate = useRouter();
-  const { questions, answers, isQuizComplete, resetQuiz } = useQuizStore();
+  const router = useRouter();
+  const { reviewData, resetQuiz, questions, answers } = useQuizStore();
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
-  const { reviewData } = useQuizStore();
-  console.log(reviewData);
+  const [reviewList, setReviewList] = useState<ReviewResponse[]>([]);
+
+  const getQuizReview = async () => {
+    try {
+      const response = await axios.post('/api/quiz/detailedReview', {
+        reviewData,
+      });
+      console.log('Review Data:', response.data.review);
+      setReviewList(response.data.review);
+    } catch (error) {
+      console.error('Error fetching detailed review:', error);
+    }
+  };
 
   useEffect(() => {
-    if (!isQuizComplete) {
-      // If quiz isn't complete, redirect to home
-      navigate.push('/library');
+    if (reviewData.length > 0) {
+      getQuizReview();
     }
-  }, [isQuizComplete, navigate]);
+  }, []);
 
-  if (!isQuizComplete) {
-    return null;
+  const currentReview = reviewList[currentReviewIndex];
+
+  if (!currentReview) {
+    return <div className="p-4">Loading review...</div>;
   }
 
   const currentQuestion = questions[currentReviewIndex];
@@ -43,11 +62,11 @@ const QuizReviewPage = () => {
 
   const handleGoHome = () => {
     resetQuiz();
-    navigate.push('/library');
+    router.push('/library');
   };
 
   const handleGoToSummary = () => {
-    navigate.push('summary');
+    router.push('summary');
   };
 
   return (
@@ -72,36 +91,42 @@ const QuizReviewPage = () => {
 
       <Card className="quiz-card mb-4">
         <h2 className="text-xl font-semibold mb-8 leading-relaxed">
-          {currentQuestion.question}
+          {currentReviewIndex > 9 ? (
+            <h1>Completed</h1>
+          ) : (
+            <p>{currentQuestion?.question}</p>
+          )}
         </h2>
 
         <div className="space-y-4">
-          {currentQuestion.options.map((option) => (
-            <QuizOption
-              key={option.id}
-              id={option.id}
-              text={option.text}
-              selected={selectedOptionId === option.id}
-              showResult={true}
-              isCorrect={option.id === currentQuestion.correctOptionId}
-              onClick={() => {}}
-              disabled={true}
-            />
-          ))}
+          {currentReviewIndex > 9 ? (
+            <h1>Completed</h1>
+          ) : (
+            currentQuestion?.options.map((option) => (
+              <QuizOption
+                key={option.id}
+                id={option.id}
+                text={option.text}
+                selected={selectedOptionId === option.id}
+                showResult={true}
+                isCorrect={option.id === currentQuestion.correctOptionId}
+                onClick={() => {}}
+                disabled={true}
+              />
+            ))
+          )}
         </div>
 
-        {selectedOptionId !== currentQuestion.correctOptionId && (
-          <div className="mt-8 p-5 bg-gray-50 rounded-lg text-base">
-            <p className="font-medium mb-2">Explanation:</p>
-            <p className="text-gray-600 leading-relaxed">
-              {
-                currentQuestion.options.find(
-                  (o) => o.id === currentQuestion.correctOptionId
-                )?.text
-              }
-            </p>
+        <div className="mt-8 p-5 bg-gray-50 rounded-lg text-base">
+          <p className="font-medium mb-2">Explanation:</p>
+          <div className="text-gray-600 leading-relaxed">
+            {currentReviewIndex > 9 ? (
+              <h1>Completed</h1>
+            ) : (
+              <p>{currentReview?.explanation}</p>
+            )}
           </div>
-        )}
+        </div>
       </Card>
 
       <div className="flex justify-between mt-6">

@@ -1,17 +1,29 @@
-import { getGeminiModel } from "@/lib/genAI";
-import type { QuizQuestion } from "../generateQuiz";
+import { getGeminiModel } from '@/lib/genAI';
+
+type ReviewData = {
+  questionId: string;
+  question: string;
+  options: { id: string; text: string }[];
+  correctAnswer: string;
+  userAnswer: string;
+};
 
 const model = getGeminiModel();
 
-export async function generateDetailedReview(
-  questions: QuizQuestion[],
-  userAnswers: string[]
-): Promise<{ question: string, userAnswer: string, explanation: string }[]> {
-  const quizData = questions.map((q, index) => ({
-    question: q.question,
-    options: q.options,
-    correctAnswer: q.answer,
-    userAnswer: userAnswers[index],
+export async function generateDetailedReview(reviewData: ReviewData[]): Promise<
+  {
+    questionId: string;
+    question: string;
+    userAnswer: string;
+    explanation: string;
+  }[]
+> {
+  const quizData = reviewData.map((item) => ({
+    questionId: item.questionId,
+    question: item.question,
+    options: item.options.map((opt) => opt.text),
+    correctAnswer: item.correctAnswer,
+    userAnswer: item.userAnswer,
   }));
 
   const prompt = `
@@ -21,35 +33,40 @@ Here is the quiz data:
 ${JSON.stringify(quizData, null, 2)}
 
 Task:
-- Only review the questions where the user's answer was incorrect.
-- For each incorrect answer, follow this structure:
-  1. Write the actual question text.
-  2. Mention the user's wrong answer.
-  3. Explain why the user's answer was wrong.
-  4. Provide a brief explanation of the correct answer.
-- Be clear and concise.
-- Do not use any code block formatting (no \`\`\`).
-- Start directly with the detailed review.
-`;
+- Review **each answer**, whether correct or incorrect.
+- Always For each item, give:
+  1. The question.
+  2. The user's answer (mention if it's correct or wrong).
+  3. A short explanation of why it is correct or incorrect.
+  4. A brief explanation of the correct answer (even if the user got it right).
+- Use this format for each item:
+
+Question ID: <questionId>
+Question: <actual question>
+User Answer: <user's answer> (Correct/Wrong)
+Explanation: <clear explanation>
+
+Start directly with the review. No headings or code blocks.
+  `;
 
   try {
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text().trim();
 
-    // Process the response text into an array of objects
-    const detailedReview = text.split("\n\n").map((entry) => {
-      const lines = entry.split("\n");
+    const detailedReview = text.split('\n\n').map((entry) => {
+      const lines = entry.split('\n');
       return {
-        question: lines[0],
-        userAnswer: lines[1].split(":")[1]?.trim(),
-        explanation: lines.slice(2).join(" ").trim(),
+        questionId: lines[0]?.split(':')[1]?.trim() || '',
+        question: lines[1]?.split(':')[1]?.trim() || '',
+        userAnswer: lines[2]?.split(':')[1]?.trim() || '',
+        explanation: lines[3]?.split(':')[1]?.trim() || '',
       };
     });
 
     return detailedReview;
   } catch (err) {
-    console.error("Error generating detailed review:", err);
+    console.error('Error generating detailed review:', err);
     return [];
   }
 }
