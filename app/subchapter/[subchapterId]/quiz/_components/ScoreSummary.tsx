@@ -5,11 +5,13 @@ import { CircleCheck } from 'lucide-react';
 interface ScoreSummaryProps {
   score: number;
   totalQuestions: number;
+  recommendation: string;
 }
 
 const ScoreSummary: React.FC<ScoreSummaryProps> = ({
   score,
   totalQuestions,
+  recommendation,
 }) => {
   const percentage = Math.round((score / totalQuestions) * 100);
 
@@ -23,16 +25,6 @@ const ScoreSummary: React.FC<ScoreSummaryProps> = ({
     if (percentage >= 80) return 'Excellent work!';
     if (percentage >= 50) return 'Good effort!';
     return 'Keep practicing!';
-  };
-
-  const getRecommendation = () => {
-    if (percentage >= 80) {
-      return "You've mastered this topic! Try a more challenging quiz next.";
-    }
-    if (percentage >= 50) {
-      return "You're doing well! Review the questions you missed and try again.";
-    }
-    return 'Consider reviewing the material and trying the quiz again to improve your score.';
   };
 
   return (
@@ -54,7 +46,10 @@ const ScoreSummary: React.FC<ScoreSummaryProps> = ({
         <h3 className="font-medium mb-2 text-quiz-secondary">
           Recommendation:
         </h3>
-        <p className="text-gray-600">{getRecommendation()}</p>
+        <div
+          className="prose max-w-none text-gray-700"
+          dangerouslySetInnerHTML={{ __html: recommendation }}
+        />
       </div>
     </div>
   );

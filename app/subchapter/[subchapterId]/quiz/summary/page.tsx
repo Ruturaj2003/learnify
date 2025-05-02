@@ -1,6 +1,6 @@
 'use client';
-import { useEffect } from 'react';
-
+import { useEffect, useRef, useState } from 'react';
+import markdownit from 'markdown-it';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 
@@ -8,18 +8,42 @@ import { useQuizStore } from '@/stores/useQuizStore';
 import { FileText, Home } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import ScoreSummary from '../_components/ScoreSummary';
-
+import axios from 'axios';
+const md = new markdownit({
+  html: true,
+  linkify: true,
+  typographer: true,
+});
 const QuizSummaryPage = () => {
   const navigate = useRouter();
-  const { score, questions, isQuizComplete, resetQuiz } = useQuizStore();
+  const hasFetched = useRef(false); // 🛡 Prevent double-fetch
+  const { score, questions, isQuizComplete, resetQuiz, reviewData } =
+    useQuizStore();
+  const [recommendation, setRecommendation] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const getQuizReview = async () => {
+    try {
+      const response = await axios.post('/api/quiz/studyRecommendations', {
+        reviewData,
+      });
+      console.log('Recommendation Data:', response.data);
+      const recommendation = await md.render(response.data.recommendations);
+      setRecommendation(recommendation);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.error('Error fetching detailed review:', error);
+    }
+  };
 
   useEffect(() => {
-    if (!isQuizComplete) {
-      // If quiz isn't complete, redirect to home
-      navigate.push('/library');
+    if (reviewData.length > 0 && !hasFetched.current) {
+      hasFetched.current = true;
+      setLoading(true);
+      getQuizReview();
     }
-  }, [isQuizComplete, navigate]);
-
+  }, []);
   const handleReviewQuiz = () => {
     navigate.push('review');
   };
@@ -32,13 +56,22 @@ const QuizSummaryPage = () => {
   if (!isQuizComplete) {
     return null;
   }
+  if (loading) {
+    return <h1>Loading Summary</h1>;
+  }
 
   return (
     <div className="quiz-container">
       <Card className="quiz-card mb-6">
         <h1 className="text-2xl font-bold mb-4 text-center">Quiz Results</h1>
 
-        <ScoreSummary score={score} totalQuestions={questions.length} />
+        <ScoreSummary
+          score={score}
+          totalQuestions={questions.length}
+          recommendation={recommendation}
+        />
+
+        {/* <h2>{recommendation}</h2> */}
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
           <Button

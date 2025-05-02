@@ -1,29 +1,39 @@
-import { getGeminiModel } from "@/lib/genAI";
-import type { QuizQuestion } from "../generateQuiz";
+import { getGeminiModel } from '@/lib/genAI';
 
 const model = getGeminiModel();
 
-export async function generateStudyRecommendations(
-  questions: QuizQuestion[],
-  userAnswers: string[],
-): Promise<string> {
-  const quizData = questions.map((q, index) => ({
-    question: q.question,
-    options: q.options,
-    correctAnswer: q.answer,
-    userAnswer: userAnswers[index],
-  }));
+type ReviewData = {
+  questionId: string;
+  question: string;
+  options: { id: string; text: string }[];
+  correctAnswer: string;
+  userAnswer: string;
+};
 
+export async function generateStudyRecommendations(
+  reviewData: ReviewData[]
+): Promise<string> {
+  const quizData = reviewData.map((item) => ({
+    questionId: item.questionId,
+    question: item.question,
+    options: item.options.map((opt) => opt.text),
+    correctAnswer: item.correctAnswer,
+    userAnswer: item.userAnswer,
+  }));
   const prompt = `
-You are an educational AI assistant.
-Here is the quiz data:
+You are an intelligent educational assistant helping a student improve their understanding.
+
+Below is the student's quiz data, including the questions, the user's answers, the correct answers, and explanations:
 ${JSON.stringify(quizData, null, 2)}
 
-Generate only the following section:
+Analyze the data and generate only the following section:
 
 Study Recommendations:
-- List 3–5 topics or concepts the user should review based on their mistakes
-- Provide links or keywords for further reading (if applicable)
+- Identify 3 to 5 key topics or concepts where the student made mistakes or showed confusion
+- Focus on patterns of incorrect answers or misunderstood explanations
+- Use clear, helpful language appropriate for a high school or early college level
+- Do NOT restate the quiz data or list specific question numbers
+- Present the recommendations as a simple bullet-point list
 `;
 
   try {
@@ -31,7 +41,7 @@ Study Recommendations:
     const response = await result.response;
     return response.text();
   } catch (err) {
-    console.error("Error generating study recommendations:", err);
-    return "Error generating study recommendations.";
+    console.error('Error generating study recommendations:', err);
+    return 'Error generating study recommendations.';
   }
 }
