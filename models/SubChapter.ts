@@ -34,7 +34,7 @@ const subChapterSchema = new mongoose.Schema({
     default: null,
   },
   quiz: {
-    attempted: { type: Boolean, default: false },
+    attempted: { type: Number, default: 0 },
     correctAnswers: { type: Number, default: 0 },
     totalQuestions: { type: Number, default: 0 },
     knowledgeScore: { type: Number, default: 0 },

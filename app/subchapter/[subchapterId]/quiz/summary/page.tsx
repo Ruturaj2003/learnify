@@ -9,6 +9,7 @@ import { FileText, Home } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import ScoreSummary from '../_components/ScoreSummary';
 import axios from 'axios';
+import { useChapterStore } from '@/stores/useChapterStore';
 const md = new markdownit({
   html: true,
   linkify: true,
@@ -21,19 +22,30 @@ const QuizSummaryPage = () => {
     useQuizStore();
   const [recommendation, setRecommendation] = useState('');
   const [loading, setLoading] = useState(false);
+  const { currentSubchapter } = useChapterStore();
 
+  const subId = currentSubchapter.subId;
   const getQuizReview = async () => {
     try {
+      setLoading(true);
+
+      // 2. Fetch study recommendations
       const response = await axios.post('/api/quiz/studyRecommendations', {
         reviewData,
       });
-      console.log('Recommendation Data:', response.data);
-      const recommendation = await md.render(response.data.recommendations);
-      setRecommendation(recommendation);
-      setLoading(false);
+      // 1. Update quiz statistics
+      const stats = await axios.post('/api/quiz/updateStats', {
+        subChapterId: subId,
+        correctAnswers: Number(score),
+      });
+      console.log(stats);
+
+      const markdown = await md.render(response.data.recommendations);
+      setRecommendation(markdown);
     } catch (error) {
-      setLoading(false);
       console.error('Error fetching detailed review:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
