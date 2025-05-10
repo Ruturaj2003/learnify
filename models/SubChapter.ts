@@ -23,10 +23,9 @@ const subChapterSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
-  completedStatus: {
-    type: String,
-    enum: ['pending', 'completed'],
-    default: 'pending',
+  completed: {
+    type: Boolean,
+    default: false,
   },
   pdfBuffer: {
     type: Buffer, // Store the PDF as a binary buffer

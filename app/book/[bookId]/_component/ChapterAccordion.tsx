@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { CheckCircle, Circle } from 'lucide-react';
 
 import { useChapterStore } from '@/stores/useChapterStore';
 import { useRouter } from 'next/navigation';
@@ -8,6 +9,7 @@ import { useRouter } from 'next/navigation';
 export type SubChapter = {
   title: string;
   subchapterId: string;
+  completed: boolean;
 };
 
 export type Chapter = {
@@ -19,7 +21,8 @@ export type Chapter = {
 export default function ChapterAccordion() {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
-  const { chapters, mode, setCurrentSubchapter } = useChapterStore();
+  const { chapters, mode, setCurrentSubchapter, toggleSubchapterCompleted } =
+    useChapterStore();
   const router = useRouter();
   console.log('Chapters from store:', chapters);
   if (chapters.length === 0) {
@@ -71,12 +74,28 @@ export default function ChapterAccordion() {
               >
                 {open &&
                   chapter.subChapters.map((sub) => (
-                    <li key={sub.subchapterId} className="py-2">
+                    <li
+                      key={sub.subchapterId}
+                      className="py-2 flex justify-between items-center"
+                    >
                       <button
                         onClick={() => handleClick(sub.subchapterId, sub.title)}
                         className="text-sm text-violet-700 hover:underline hover:text-violet-900 transition-colors line-clamp-3"
                       >
                         {sub.title}
+                      </button>
+                      <button
+                        className="ml-4"
+                        onClick={() =>
+                          toggleSubchapterCompleted(sub.subchapterId)
+                        } // Always mark as complete for now
+                      >
+                        {/* Replace the logic below with real status check if available */}
+                        {sub.completed ? ( // Replace `false` with a completed status check
+                          <CheckCircle className="text-green-500 w-5 h-5" />
+                        ) : (
+                          <Circle className="text-gray-400 w-5 h-5" />
+                        )}
                       </button>
                     </li>
                   ))}

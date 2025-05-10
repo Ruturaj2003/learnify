@@ -7,6 +7,8 @@ import ChapterAccordion from './_component/ChapterAccordion';
 import { useChapterStore } from '@/stores/useChapterStore';
 import { useParams } from 'next/navigation';
 import Spinner from '../../_components/Spinner'; // Import Spinner component
+import { toast } from 'sonner';
+import { Toaster } from '@/components/ui/sonner';
 
 const ChapterListPage = () => {
   const params = useParams();
@@ -33,8 +35,6 @@ const ChapterListPage = () => {
           <div className="pb-20 w-full h-40 max-w-2xl mx-auto">
             {loading ? (
               <Spinner /> // Show spinner when loading
-            ) : error ? (
-              <div className="text-center text-red-500">{error}</div>
             ) : (
               <ChapterAccordion />
             )}
@@ -43,6 +43,7 @@ const ChapterListPage = () => {
       </div>
 
       <BottomNavBar />
+      <Toaster></Toaster>
     </>
   );
 };

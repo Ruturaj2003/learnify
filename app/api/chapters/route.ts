@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-
 import { connectToDB } from '@/lib/mongodb';
 import SubChapters from '@/models/SubChapter';
 import Chapters from '@/models/Chapter';
@@ -36,6 +35,7 @@ export async function POST(req: NextRequest) {
           subChapters: subChapters.map((sub) => ({
             subchapterId: sub._id.toString(),
             title: sub.chapterName,
+            completed: sub.completed || false,
           })),
         };
       })
