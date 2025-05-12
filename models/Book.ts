@@ -1,4 +1,4 @@
-import mongoose, { Schema, Types } from 'mongoose';
+import mongoose, { Types } from 'mongoose';
 
 const bookSchema = new mongoose.Schema({
   userId: { type: Types.ObjectId, ref: 'User', required: true },
