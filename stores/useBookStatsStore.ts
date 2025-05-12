@@ -1,26 +1,51 @@
 import { create } from 'zustand';
-import { BookStats } from '../app/bookStats/_data/mockData';
+import axios from 'axios';
+
+interface SubChapter {
+  id: string;
+  title: string;
+  completed: boolean;
+  timeSpent: number; // in minutes
+  quizScore: number; // percentage
+  quizAttempts: number;
+}
+
+interface Chapter {
+  id: string;
+  title: string;
+  progress: number; // percentage
+  quizAverage: number; // percentage
+  subChapters: SubChapter[];
+}
+interface BookStats {
+  bookName: string;
+  description: string;
+  overallProgress: number; // percentage
+  knowledgeScore: number; // percentage
+  totalTimeSpent: number; // in minutes
+  chaptersCompleted: number;
+  totalChapters: number;
+  totalQuizAttempts: number;
+  averageQuizScore: number; // percentage
+  chapters: Chapter[];
+}
 
 interface BookState {
-  // Current state
   bookData: BookStats | null;
   expandedChapter: string | null;
   loading: boolean;
 
-  // Actions
   setBookData: (data: BookStats) => void;
   toggleChapter: (chapterId: string) => void;
   formatTime: (minutes: number) => string;
-  loadBookData: () => Promise<void>;
+  loadBookData: (bookId: string) => Promise<void>;
 }
 
 export const useBookStatsStore = create<BookState>((set, get) => ({
-  // Initial state
   bookData: null,
   expandedChapter: null,
   loading: false,
 
-  // Actions
   setBookData: (data) => set({ bookData: data }),
 
   toggleChapter: (chapterId) =>
@@ -36,15 +61,14 @@ export const useBookStatsStore = create<BookState>((set, get) => ({
     return `${hours}h ${mins}m`;
   },
 
-  loadBookData: async () => {
+  loadBookData: async (bookId: string) => {
     set({ loading: true });
     try {
-      // Simulating API call with the imported data
-      // In a real app, we would fetch from an API
-      const { bookData } = await import('../app/bookStats/_data/mockData');
-      set({ bookData, loading: false });
+      const response = await axios.post('/api/bookStats', { bookId });
+      const data: BookStats = response.data;
+      set({ bookData: data, loading: false });
     } catch (error) {
-      console.error('Failed to load book data:', error);
+      console.error('Error fetching book stats:', error);
       set({ loading: false });
     }
   },

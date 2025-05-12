@@ -18,6 +18,8 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import axios from 'axios';
+import { useBookStatsStore } from '@/stores/useBookStatsStore';
+import { useRouter } from 'next/navigation';
 
 type Book = {
   id: string;
@@ -35,7 +37,8 @@ type BookItemProps = {
 const BookItem = ({ book, onDelete }: BookItemProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-
+  const { loadBookData } = useBookStatsStore();
+  const router = useRouter();
   const handleDelete = async () => {
     try {
       // Send DELETE request with the bookId in the body
@@ -58,6 +61,9 @@ const BookItem = ({ book, onDelete }: BookItemProps) => {
   };
 
   const handleStatsClick = () => {
+    loadBookData(book.id);
+    router.push('/bookStats');
+
     toast.info(`Viewing stats for "${book.title}"`);
   };
 

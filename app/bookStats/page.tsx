@@ -7,20 +7,18 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useBookStatsStore } from '@/stores/useBookStatsStore';
 import BottomNavBar from '../_components/BottomNavBar';
 const BookStatsPage = () => {
-  const { bookData, loading, loadBookData } = useBookStatsStore();
+  const { bookData, loading } = useBookStatsStore();
 
-  useEffect(() => {
-    loadBookData();
-  }, [loadBookData]);
   return (
     <>
       <div className="container py-8">
         <header className="mb-8">
           <h1 className="text-4xl font-extrabold tracking-tight">
-            Programming Fundamentals
+            {bookData?.bookName || 'Book Title'}
           </h1>
           <p className="text-muted-foreground mt-2">
-            Track your progress and knowledge acquisition
+            {bookData?.description ||
+              'Track your progress and knowledge acquisition'}
           </p>
         </header>
 
