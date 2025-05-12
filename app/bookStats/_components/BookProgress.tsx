@@ -32,12 +32,7 @@ const BookProgress: React.FC<BookProgressProps> = ({ data }) => {
           icon={<Award size={20} />}
           valueColor="text-purple-600"
         />
-        <StatCard
-          title="Time Invested"
-          value={formatTime(data.totalTimeSpent)}
-          icon={<Clock size={20} />}
-          valueColor="text-green-600"
-        />
+
         <StatCard
           title="Quiz Performance"
           value={`${data.averageQuizScore}%`}

@@ -53,13 +53,6 @@ const ChapterDetail: React.FC<ChapterDetailProps> = ({ chapter }) => {
             </div>
 
             <div className="text-sm">
-              <span className="text-muted-foreground">Time: </span>
-              <span className="font-medium">
-                {formatTime(subchapter.timeSpent)}
-              </span>
-            </div>
-
-            <div className="text-sm">
               <span className="text-muted-foreground">Quiz attempts: </span>
               <span className="font-medium">
                 {subchapter.quizAttempts || 'None'}
