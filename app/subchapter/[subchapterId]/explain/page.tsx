@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, Volume2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useInView } from 'react-intersection-observer';
 import { cn } from '@/lib/utils';
@@ -33,6 +33,30 @@ const Reader = () => {
     loadingExplaination,
   } = useExplanationStore();
 
+  // Stuff for speech
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const speechSynthesisRef = useRef<SpeechSynthesisUtterance | null>(null);
+
+  const handleTextToSpeech = () => {
+    if (isSpeaking) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+      return;
+    }
+
+    const strippedText = currentExplanation.replace(/<[^>]*>/g, ''); // remove HTML
+    const utterance = new SpeechSynthesisUtterance(strippedText);
+    utterance.lang = 'en-US';
+    utterance.rate = 1;
+
+    utterance.onend = () => {
+      setIsSpeaking(false);
+    };
+
+    speechSynthesisRef.current = utterance;
+    window.speechSynthesis.speak(utterance);
+    setIsSpeaking(true);
+  };
   // Fetch explanations when the chapterId changes
   useEffect(() => {
     const fetchData = async () => {
@@ -80,8 +104,13 @@ const Reader = () => {
             {`${currentSubchapter.subchapterName}`}
           </h2>
 
-          {/* View Mode Toggle */}
-          <ViewModeToggle />
+          <div className="flex items-center gap-2">
+            <Button onClick={handleTextToSpeech} variant="ghost" size="icon">
+              <span className="sr-only">Listen</span>
+              <Volume2 className="w-5 h-5 text-purple-700 dark:text-purple-300" />
+            </Button>
+            <ViewModeToggle />
+          </div>
         </div>
 
         {/* Reading Content */}
