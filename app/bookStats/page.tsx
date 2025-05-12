@@ -11,7 +11,7 @@ const BookStatsPage = () => {
 
   return (
     <>
-      <div className="container py-8">
+      <div className="container py-8 pb-18">
         <header className="mb-8">
           <h1 className="text-4xl font-extrabold tracking-tight">
             {bookData?.bookName || 'Book Title'}
