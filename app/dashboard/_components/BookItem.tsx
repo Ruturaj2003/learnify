@@ -17,6 +17,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import axios from 'axios';
 
 type Book = {
   id: string;
@@ -31,15 +32,29 @@ type BookItemProps = {
   book: Book;
   onDelete: (id: string) => void;
 };
-
 const BookItem = ({ book, onDelete }: BookItemProps) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const handleDelete = () => {
-    onDelete(book.id);
-    toast.success(`"${book.title}" has been deleted.`);
-    setIsDialogOpen(false);
+  const handleDelete = async () => {
+    try {
+      // Send DELETE request with the bookId in the body
+      const response = await axios.delete('/api/deleteBook', {
+        data: { bookId: book.id },
+      });
+
+      if (response.status === 200) {
+        toast.success(`"${book.title}" has been deleted.`);
+        onDelete(book.id); // Notify parent to remove the book from the list
+      } else {
+        toast.error('Failed to delete the book.');
+      }
+
+      setIsDialogOpen(false);
+    } catch (error) {
+      console.error(error);
+      toast.error('An error occurred while deleting the book.');
+    }
   };
 
   const handleStatsClick = () => {
