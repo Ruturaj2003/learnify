@@ -26,12 +26,10 @@ export async function PATCH(req: NextRequest) {
     }
 
     // Toggle completion status
-    const newStatus =
-      sub.completedStatus === 'completed' ? 'pending' : 'completed';
-    sub.completedStatus = newStatus;
+    sub.completed = !sub.completed;
     await sub.save();
 
-    return NextResponse.json({ completed: newStatus === 'completed' });
+    return NextResponse.json({ completed: sub.completed });
   } catch (err) {
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }

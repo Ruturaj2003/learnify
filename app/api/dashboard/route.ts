@@ -50,7 +50,7 @@ export async function GET() {
           // Count total subchapters and completed subchapters
           totalSubChapters += subChapters.length;
           completedSubChapters += subChapters.filter(
-            (sub) => sub.completedStatus === 'completed'
+            (sub) => sub.completed === true
           ).length;
 
           // Sum up the knowledge scores of all subchapters
@@ -105,3 +105,4 @@ export async function GET() {
     );
   }
 }
+// 682196567ee7bdd275e28bab
