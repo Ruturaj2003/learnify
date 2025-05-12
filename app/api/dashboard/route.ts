@@ -59,15 +59,17 @@ export async function GET() {
           });
         }
 
-        // Calculate progress: Completed subchapters / Total subchapters
         const progress =
           totalSubChapters > 0
-            ? (completedSubChapters / totalSubChapters) * 100
+            ? parseFloat(
+                ((completedSubChapters / totalSubChapters) * 100).toFixed(2)
+              )
             : 0;
 
-        // Calculate average knowledge score of all subchapters' quizzes
         const knowledgeScore =
-          totalSubChapters > 0 ? totalKnowledgeScore / totalSubChapters : 0;
+          totalSubChapters > 0
+            ? parseFloat((totalKnowledgeScore / totalSubChapters).toFixed(2))
+            : 0;
 
         // Return formatted book data
         return {
