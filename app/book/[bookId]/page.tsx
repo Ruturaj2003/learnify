@@ -6,15 +6,15 @@ import ModeSelector from './_component/ModeSelector';
 import ChapterAccordion from './_component/ChapterAccordion';
 import { useChapterStore } from '@/stores/useChapterStore';
 import { useParams } from 'next/navigation';
-import Spinner from '../../_components/Spinner'; // Import Spinner component
-import { toast } from 'sonner';
+import Spinner from '../../_components/Spinner'; //
+
 import { Toaster } from '@/components/ui/sonner';
 
 const ChapterListPage = () => {
   const params = useParams();
   const bookId = params?.bookId as string; // safer casting
 
-  const { mode, setMode, fetchChapters, loading, error } = useChapterStore();
+  const { mode, setMode, fetchChapters, loading } = useChapterStore();
 
   useEffect(() => {
     if (bookId) {

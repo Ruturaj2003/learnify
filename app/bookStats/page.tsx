@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import BookProgress from './_components/BookProgress';
 import ChaptersList from './_components/ChaptersList';
 

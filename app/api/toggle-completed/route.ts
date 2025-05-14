@@ -31,6 +31,6 @@ export async function PATCH(req: NextRequest) {
 
     return NextResponse.json({ completed: sub.completed });
   } catch (err) {
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' + err }, { status: 500 });
   }
 }

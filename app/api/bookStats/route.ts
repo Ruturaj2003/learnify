@@ -21,14 +21,14 @@ export async function POST(req: Request) {
     let chaptersCompleted = 0;
     let totalQuizAttempts = 0;
     let totalScore = 0;
-    let allChaptersData = [];
+    const allChaptersData = [];
 
     for (const ch of chapters) {
       const subChapters = await SubChapter.find({ chapter: ch._id });
 
       let chapterScore = 0;
       let chapterAttempts = 0;
-      let subChapterList = [];
+      const subChapterList = [];
 
       let isChapterComplete = true;
 

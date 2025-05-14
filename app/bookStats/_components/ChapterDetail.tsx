@@ -5,15 +5,12 @@ import { Chapter } from '../_data/mockData';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 import { CheckCircle, XCircle } from 'lucide-react';
-import { useBookStatsStore } from '@/stores/useBookStatsStore';
 
 interface ChapterDetailProps {
   chapter: Chapter;
 }
 
 const ChapterDetail: React.FC<ChapterDetailProps> = ({ chapter }) => {
-  const { formatTime } = useBookStatsStore();
-
   // Function to determine quiz score color
   const getScoreColor = (score: number) => {
     if (score === 0) return 'text-gray-400';

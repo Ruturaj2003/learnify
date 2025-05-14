@@ -1,9 +1,9 @@
 'use client';
-import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
+import { Card } from '@/components/ui/card';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
-import { BookStats, Chapter } from '../_data/mockData';
+import { BookStats } from '../_data/mockData';
 import ChapterDetail from './ChapterDetail';
 import { cn } from '@/lib/utils';
 import { useBookStatsStore } from '@/stores/useBookStatsStore';

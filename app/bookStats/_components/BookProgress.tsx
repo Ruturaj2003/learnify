@@ -1,18 +1,15 @@
 'use client';
 import React from 'react';
-import { ChartPie, Clock, Award, BookOpen } from 'lucide-react';
+import { ChartPie, Award } from 'lucide-react';
 import StatCard from './StatCard';
 import ProgressCard from './ProgressCard';
 import { BookStats } from '../_data/mockData';
-import { useBookStatsStore } from '@/stores/useBookStatsStore';
 
 interface BookProgressProps {
   data: BookStats;
 }
 
 const BookProgress: React.FC<BookProgressProps> = ({ data }) => {
-  const { formatTime } = useBookStatsStore();
-
   return (
     <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
