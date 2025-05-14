@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import ScoreSummary from '../_components/ScoreSummary';
 import axios from 'axios';
 import { useChapterStore } from '@/stores/useChapterStore';
+import Spinner from '@/app/_components/Spinner';
 const md = new markdownit({
   html: true,
   linkify: true,
@@ -69,7 +70,7 @@ const QuizSummaryPage = () => {
     return null;
   }
   if (loading) {
-    return <h1>Loading Summary</h1>;
+    return <Spinner></Spinner>;
   }
 
   return (

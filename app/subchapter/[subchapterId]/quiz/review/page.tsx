@@ -8,6 +8,7 @@ import { Home, ArrowLeft, ArrowRight } from 'lucide-react';
 
 import QuizOption from '../_components/QuizOption';
 import { useRouter } from 'next/navigation';
+import Spinner from '@/app/_components/Spinner';
 
 type ReviewResponse = {
   questionId: string;
@@ -43,7 +44,7 @@ const QuizReviewPage = () => {
   const currentReview = reviewList[currentReviewIndex];
 
   if (!currentReview) {
-    return <div className="p-4">Loading review...</div>;
+    return <Spinner></Spinner>;
   }
 
   const currentQuestion = questions[currentReviewIndex];
