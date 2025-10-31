@@ -14,7 +14,7 @@ The **Dynamic Learning System** is an AI-powered personalized learning assistant
 ### 2. **Dynamic Content Explanation**
 
 - Users select a section they want to study.
-- The selected text is processed by an **AI API** (OpenAI, Claude, Gemini, etc.).
+- The selected text is processed by an **AI API** Gemini.
 - The AI provides **simplified or detailed** explanations based on user preferences.
 
 ### 3. **Quiz Generation & Scoring**
@@ -43,24 +43,7 @@ The **Dynamic Learning System** is an AI-powered personalized learning assistant
 | **Database**        | Firestore (Stores progress, quiz results, user data)  |
 | **File Processing** | PDF.js / PyMuPDF (Extracts ToC & text)                |
 
-## How to Run the Project
 
-1. **Clone the Repository**:
-   ```sh
-   git clone https://github.com/your-repo/dynamic-learning-system.git
-   cd dynamic-learning-system
-   ```
-2. **Install Dependencies**:
-   ```sh
-   npm install
-   ```
-3. **Set Up Firebase**:
-   - Configure Firebase Authentication and Firestore.
-   - Add Firebase configuration to the project.
-4. **Run the Application**:
-   ```sh
-   npm run dev
-   ```
 
 ## Future Enhancements
 
